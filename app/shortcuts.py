@@ -1,6 +1,10 @@
 from numconv import *
 from flask import jsonify
 
+def getStatus(resp, cursor, table):
+	query = "SELECT COUNT(*) FROM " + table + ";"
+	cursor.execute(query)
+	resp[table] = cursor.fetchone()[0]
 
 def badTypes():
 	return badJson('argument types are incorrect')
@@ -37,7 +41,7 @@ def treeSort(cursor, resp, thread_id, sort, since, order, limit):
 	else:
 		root_extra = ''
 	if limit is not None:
-		if sort == 'tree':		
+		if sort == 'tree':
 			extra += ' LIMIT ' + str(limit)
 		else:
 			root_extra += ' LIMIT ' + str(limit)

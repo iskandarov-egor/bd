@@ -180,6 +180,17 @@ def shutdown_server():
         raise RuntimeError('Not running with the Werkzeug Server')
     func()
   
+
+@app.route('/db/api/status/', methods = ['GET'])	
+def status():
+	resp = {}
+	getStatus(resp, cursor, 'user')
+	getStatus(resp, cursor, 'forum')
+	getStatus(resp, cursor, 'thread')
+	getStatus(resp, cursor, 'post')
+	return OK(resp)
+  
+  
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
 def catch_all(path):
