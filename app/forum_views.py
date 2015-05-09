@@ -1,10 +1,11 @@
-from app import app, mysql, conn, cursor
+from app import app, mysql
 from flask import request, jsonify
 import MySQLdb
 from shortcuts import *
 
 @app.route('/db/api/forum/listUsers/', methods = ['GET'])
 def list_users():
+	
 	short = request.args.get('forum')
 	if short is None:
 		return didntFind('forum short name')
@@ -16,13 +17,19 @@ def list_users():
 	if extra == False:
 		return badExtra()
 	resp = []
+	conn = mysql.connect()
+	cursor = conn.cursor()
 	if getUsersResp(resp, cursor, extra, short) == False:
+		cursor.close()
+		conn.close()
 		return didntFind('forum')
-	
+	cursor.close()
+	conn.close()
 	return OK(resp)
 
 @app.route('/db/api/forum/details/', methods = ['GET'])	
 def get_forum_details():
+	
 	shortname = request.args.get('forum')	
 	if shortname is None:
 		return didntFind('forum short name')
@@ -32,14 +39,19 @@ def get_forum_details():
 		return badJson('"related" parameter is incorrect')
 	
 	resp = {}
-
+	conn = mysql.connect()
+	cursor = conn.cursor()
 	if False == getForumResp(resp, cursor, short_name=shortname, related=related):
+		cursor.close()
+		conn.close()
 		return dontExist('forum')
-	
+	cursor.close()
+	conn.close()
 	return OK(resp)
 
 @app.route('/db/api/forum/create/', methods = ['POST'])	
 def create_forum():
+	
 	try:
 		shortname = request.json['short_name']
 		name = request.json['name']
@@ -48,9 +60,12 @@ def create_forum():
 			return badTypes()
 	except:
 		return didntFind('short name, name and user')
-		
+	conn = mysql.connect()
+	cursor = conn.cursor()	
 	id = getUserByEmail(email, cursor)
 	if id is None:
+		cursor.close()
+		conn.close()
 		return dontExist('user')
 	resp = {}	
 	try:
@@ -68,4 +83,6 @@ def create_forum():
 			getForumResp(resp, cursor, name=name)
 		else:
 			getForumResp(resp, cursor, id=id)
+	cursor.close()
+	conn.close()
 	return OK(resp)

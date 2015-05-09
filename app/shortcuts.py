@@ -41,10 +41,9 @@ def treeSort(cursor, resp, thread_id, sort, since, order, limit):
 	else:
 		root_extra = ''
 	if limit is not None:
-		if sort == 'tree':
+		root_extra += ' LIMIT ' + str(limit)
+		if sort == 'tree':		
 			extra += ' LIMIT ' + str(limit)
-		else:
-			root_extra += ' LIMIT ' + str(limit)
 	root_query += root_extra
 	query = ("SELECT "+postParams+" FROM"
 			" (" + root_query + ") AS root"
@@ -92,7 +91,7 @@ def getThreadsResp(resp, cursor,  extra, forum_short=None, creator_email=None,  
 	return True	
 
 def countPostsInThread(cursor, id):
-	cursor.execute("SELECT COUNT(*) FROM post WHERE isDeleted = FALSE AND thread_id = " + str(id) + ";")
+	cursor.execute("SELECT posts FROM thread WHERE id = " + str(id) + ";")
 	return cursor.fetchone()[0]
 
 def parseThreadData(resp, cursor, data, related = []):
@@ -118,10 +117,10 @@ def parseThreadData(resp, cursor, data, related = []):
 	resp['points'] = data[4] - data[5]
 	resp['slug'] = data[1]
 	resp['title'] = data[0]
-	resp['posts'] = countPostsInThread(cursor, data[10])
+	resp['posts'] = data[11]
 	resp['id'] = data[10]
 
-thread_fields = "title, slug, creator_id, message, likes, dislikes, forum_id, date, isClosed, isDeleted, id"
+thread_fields = "title, slug, creator_id, message, likes, dislikes, forum_id, date, isClosed, isDeleted, id, posts"
 
 
 
@@ -406,8 +405,8 @@ def getUsersResp(resp, cursor,  extra, forum_short):
 	forum_id = getForumIdByShortname(cursor, forum_short)
 	if forum_id is None:
 		return False
-	query = ("SELECT DISTINCT "+user_fields+" FROM forum f INNER JOIN post p"
-	" ON f.id = p.forum_id INNER JOIN user ON user.id = p.author_id WHERE f.id = " 
+	query = ("SELECT DISTINCT "+user_fields+" FROM post p"
+	" INNER JOIN user ON user.id = p.author_id WHERE p.forum_id = " 
 			+str(forum_id)+' ' +extra+";")
 	cursor.execute(query)
 	alldata = cursor.fetchall()
