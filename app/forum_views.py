@@ -26,9 +26,10 @@ def list_users():
 		cursor.close()
 		conn.close()
 		return dontExist('forum')
-	query = ("select "+user_fields+" FROM user where id in "
-	"(select distinct author_id from post where forum_id="+str(forum_id)+") "
-	+extra +";")
+	
+	query = ("select "+user_fields+" FROM user INNER JOIN forum_authors"
+	" ON user.id = forum_authors.author_id"
+	" where forum_authors.forum_id="+str(forum_id)+extra+";");
 	cursor.execute(query)
 	alldata = cursor.fetchall()
 	

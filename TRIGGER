@@ -1,0 +1,41 @@
+delimiter |
+CREATE TRIGGER postAfterInsert AFTER INSERT ON post
+FOR EACH ROW
+BEGIN
+  IF NEW.isDeleted = FALSE THEN
+    UPDATE thread SET posts = posts + 1 WHERE id = NEW.thread_id;
+    INSERT IGNORE INTO forum_authors (forum_id, author_id) VALUES(NEW.forum_id, NEW.author_id);
+  END IF;  
+END;|
+delimiter ;
+
+delimiter |
+CREATE TRIGGER postAfterDelete AFTER DELETE ON post
+FOR EACH ROW
+BEGIN
+  IF OLD.isDeleted = FALSE THEN
+    UPDATE thread SET posts = posts - 1 WHERE id = OLD.thread_id;
+    IF (SELECT id FROM post WHERE author_id=OLD.author_id AND forum_id=OLD.forum_id AND isDeleted=0 LIMIT 1) IS NULL THEN
+      DELETE FROM forum_authors WHERE author_id=OLD.author_id AND forum_id=OLD.forum_id;
+    END IF;
+  END IF;
+  
+END;|
+delimiter ;
+
+delimiter |
+CREATE TRIGGER countPostsMarkDeleted AFTER UPDATE ON post
+FOR EACH ROW
+BEGIN
+  IF NEW.isDeleted <> OLD.isDeleted THEN
+    IF NEW.isDeleted THEN
+        UPDATE thread SET posts = posts - 1 WHERE id = NEW.thread_id;
+        IF (SELECT id FROM post WHERE author_id=OLD.author_id AND forum_id=OLD.forum_id AND isDeleted=0 LIMIT 1) IS NULL THEN
+          DELETE FROM forum_authors WHERE author_id=OLD.author_id AND forum_id=OLD.forum_id;
+        END IF;
+    ELSE
+        UPDATE thread SET posts = posts + 1 WHERE id = NEW.thread_id;
+    END IF;
+  END IF;
+END;|
+delimiter ;
