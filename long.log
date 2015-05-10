@@ -1,0 +1,541 @@
+# Time: 150510 16:30:22
+# User@Host: root[root] @ localhost []
+# Query_time: 0.215421  Lock_time: 0.000038 Rows_sent: 87  Rows_examined: 87
+SET timestamp=1431264622;
+SELECT id, forum_id, message, likes, dislikes, author_id, isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot FROM post WHERE forum_id=9  ORDER BY date ASC LIMIT 87;
+# Time: 150510 16:30:26
+# User@Host: root[root] @ localhost []
+# Query_time: 0.203756  Lock_time: 0.000156 Rows_sent: 100  Rows_examined: 100
+SET timestamp=1431264626;
+SELECT id, forum_id, message, likes, dislikes, author_id, isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot FROM post WHERE forum_id=8  ORDER BY date DESC LIMIT 100;
+# Time: 150510 16:30:52
+# User@Host: root[root] @ localhost []
+# Query_time: 0.390767  Lock_time: 0.000046 Rows_sent: 79  Rows_examined: 79
+SET timestamp=1431264652;
+SELECT id, forum_id, message, likes, dislikes, author_id, isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot FROM post WHERE thread_id='3449'  ORDER BY date DESC LIMIT 79;
+# Time: 150510 16:30:53
+# User@Host: root[root] @ localhost []
+# Query_time: 0.326487  Lock_time: 0.000046 Rows_sent: 82  Rows_examined: 82
+SET timestamp=1431264653;
+SELECT id, forum_id, message, likes, dislikes, author_id, isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot FROM post WHERE thread_id='1895'  ORDER BY date ASC LIMIT 82;
+# Time: 150510 16:30:54
+# User@Host: root[root] @ localhost []
+# Query_time: 0.435946  Lock_time: 0.000042 Rows_sent: 92  Rows_examined: 92
+SET timestamp=1431264654;
+SELECT id, forum_id, message, likes, dislikes, author_id, isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot FROM post WHERE thread_id='2453'  ORDER BY date DESC LIMIT 93;
+# User@Host: root[root] @ localhost []
+# Query_time: 0.283376  Lock_time: 0.000043 Rows_sent: 72  Rows_examined: 72
+SET timestamp=1431264654;
+SELECT id, forum_id, message, likes, dislikes, author_id, isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot FROM post WHERE thread_id='4676'  ORDER BY date DESC LIMIT 72;
+# Time: 150510 16:30:55
+# User@Host: root[root] @ localhost []
+# Query_time: 0.268916  Lock_time: 0.000052 Rows_sent: 82  Rows_examined: 82
+SET timestamp=1431264655;
+SELECT id, forum_id, message, likes, dislikes, author_id, isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot FROM post WHERE thread_id='344'  ORDER BY date DESC LIMIT 97;
+# User@Host: root[root] @ localhost []
+# Query_time: 0.240629  Lock_time: 0.000041 Rows_sent: 59  Rows_examined: 59
+SET timestamp=1431264655;
+SELECT id, forum_id, message, likes, dislikes, author_id, isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot FROM post WHERE thread_id='7323'  ORDER BY date DESC LIMIT 59;
+# User@Host: root[root] @ localhost []
+# Query_time: 0.262163  Lock_time: 0.000043 Rows_sent: 69  Rows_examined: 69
+SET timestamp=1431264655;
+SELECT id, forum_id, message, likes, dislikes, author_id, isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot FROM post WHERE thread_id='3352'  ORDER BY date DESC LIMIT 69;
+# Time: 150510 16:30:56
+# User@Host: root[root] @ localhost []
+# Query_time: 0.338973  Lock_time: 0.000045 Rows_sent: 98  Rows_examined: 98
+SET timestamp=1431264656;
+SELECT id, forum_id, message, likes, dislikes, author_id, isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot FROM post WHERE thread_id='6926'  ORDER BY date ASC LIMIT 98;
+# User@Host: root[root] @ localhost []
+# Query_time: 0.262538  Lock_time: 0.000052 Rows_sent: 99  Rows_examined: 99
+SET timestamp=1431264656;
+SELECT id, forum_id, message, likes, dislikes, author_id, isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot FROM post WHERE thread_id='6244'  ORDER BY date ASC LIMIT 99;
+# Time: 150510 16:30:57
+# User@Host: root[root] @ localhost []
+# Query_time: 0.237251  Lock_time: 0.000050 Rows_sent: 42  Rows_examined: 42
+SET timestamp=1431264657;
+SELECT id, forum_id, message, likes, dislikes, author_id, isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot FROM post WHERE thread_id='9259'  ORDER BY date DESC LIMIT 42;
+# User@Host: root[root] @ localhost []
+# Query_time: 0.310262  Lock_time: 0.000049 Rows_sent: 70  Rows_examined: 70
+SET timestamp=1431264657;
+SELECT id, forum_id, message, likes, dislikes, author_id, isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot FROM post WHERE thread_id='8991'  ORDER BY date ASC LIMIT 70;
+# Time: 150510 16:31:00
+# User@Host: root[root] @ localhost []
+# Query_time: 0.224098  Lock_time: 0.000045 Rows_sent: 58  Rows_examined: 58
+SET timestamp=1431264660;
+SELECT id, forum_id, message, likes, dislikes, author_id, isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot FROM post WHERE thread_id='6545'  ORDER BY date ASC LIMIT 58;
+# User@Host: root[root] @ localhost []
+# Query_time: 0.279175  Lock_time: 0.000042 Rows_sent: 74  Rows_examined: 74
+SET timestamp=1431264660;
+SELECT id, forum_id, message, likes, dislikes, author_id, isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot FROM post WHERE thread_id='2431'  ORDER BY date DESC LIMIT 74;
+# Time: 150510 16:31:01
+# User@Host: root[root] @ localhost []
+# Query_time: 0.255713  Lock_time: 0.000041 Rows_sent: 87  Rows_examined: 87
+SET timestamp=1431264661;
+SELECT id, forum_id, message, likes, dislikes, author_id, isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot FROM post WHERE thread_id='1612'  ORDER BY date ASC LIMIT 87;
+# Time: 150510 16:31:02
+# User@Host: root[root] @ localhost []
+# Query_time: 0.219411  Lock_time: 0.000048 Rows_sent: 32  Rows_examined: 32
+SET timestamp=1431264662;
+SELECT id, forum_id, message, likes, dislikes, author_id, isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot FROM post WHERE thread_id='3537'  ORDER BY date DESC LIMIT 32;
+# User@Host: root[root] @ localhost []
+# Query_time: 0.239657  Lock_time: 0.000044 Rows_sent: 55  Rows_examined: 55
+SET timestamp=1431264662;
+SELECT id, forum_id, message, likes, dislikes, author_id, isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot FROM post WHERE thread_id='5333'  ORDER BY date ASC LIMIT 55;
+# User@Host: root[root] @ localhost []
+# Query_time: 0.224662  Lock_time: 0.000046 Rows_sent: 45  Rows_examined: 45
+SET timestamp=1431264662;
+SELECT id, forum_id, message, likes, dislikes, author_id, isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot FROM post WHERE thread_id='1702'  ORDER BY date ASC LIMIT 45;
+# Time: 150510 16:31:03
+# User@Host: root[root] @ localhost []
+# Query_time: 0.387683  Lock_time: 0.000045 Rows_sent: 70  Rows_examined: 70
+SET timestamp=1431264663;
+SELECT id, forum_id, message, likes, dislikes, author_id, isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot FROM post WHERE thread_id='6538'  ORDER BY date DESC LIMIT 70;
+# User@Host: root[root] @ localhost []
+# Query_time: 0.262094  Lock_time: 0.000049 Rows_sent: 48  Rows_examined: 48
+SET timestamp=1431264663;
+SELECT id, forum_id, message, likes, dislikes, author_id, isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot FROM post WHERE thread_id='553'  ORDER BY date ASC LIMIT 48;
+# User@Host: root[root] @ localhost []
+# Query_time: 0.247122  Lock_time: 0.000044 Rows_sent: 78  Rows_examined: 78
+SET timestamp=1431264663;
+SELECT id, forum_id, message, likes, dislikes, author_id, isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot FROM post WHERE thread_id='6673'  ORDER BY date DESC LIMIT 78;
+# Time: 150510 16:31:05
+# User@Host: root[root] @ localhost []
+# Query_time: 0.391656  Lock_time: 0.000044 Rows_sent: 78  Rows_examined: 78
+SET timestamp=1431264665;
+SELECT id, forum_id, message, likes, dislikes, author_id, isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot FROM post WHERE thread_id='1783'  ORDER BY date DESC LIMIT 78;
+# User@Host: root[root] @ localhost []
+# Query_time: 0.407577  Lock_time: 0.000045 Rows_sent: 84  Rows_examined: 84
+SET timestamp=1431264665;
+SELECT id, forum_id, message, likes, dislikes, author_id, isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot FROM post WHERE thread_id='3811'  ORDER BY date ASC LIMIT 84;
+# Time: 150510 16:31:06
+# User@Host: root[root] @ localhost []
+# Query_time: 0.297320  Lock_time: 0.000102 Rows_sent: 90  Rows_examined: 90
+SET timestamp=1431264666;
+SELECT id, forum_id, message, likes, dislikes, author_id, isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot FROM post WHERE thread_id='3108'  ORDER BY date ASC LIMIT 100;
+# Time: 150510 16:31:07
+# User@Host: root[root] @ localhost []
+# Query_time: 0.312894  Lock_time: 0.000091 Rows_sent: 96  Rows_examined: 96
+SET timestamp=1431264667;
+SELECT id, forum_id, message, likes, dislikes, author_id, isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot FROM post WHERE thread_id='7219'  ORDER BY date DESC LIMIT 96;
+# Time: 150510 16:31:08
+# User@Host: root[root] @ localhost []
+# Query_time: 0.367055  Lock_time: 0.000046 Rows_sent: 88  Rows_examined: 88
+SET timestamp=1431264668;
+SELECT id, forum_id, message, likes, dislikes, author_id, isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot FROM post WHERE thread_id='3232'  ORDER BY date ASC LIMIT 88;
+# Time: 150510 16:31:10
+# User@Host: root[root] @ localhost []
+# Query_time: 0.211941  Lock_time: 0.000046 Rows_sent: 51  Rows_examined: 51
+SET timestamp=1431264670;
+SELECT id, forum_id, message, likes, dislikes, author_id, isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot FROM post WHERE thread_id='6910'  ORDER BY date DESC LIMIT 51;
+# User@Host: root[root] @ localhost []
+# Query_time: 0.329360  Lock_time: 0.000052 Rows_sent: 91  Rows_examined: 91
+SET timestamp=1431264670;
+SELECT id, forum_id, message, likes, dislikes, author_id, isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot FROM post WHERE thread_id='791'  ORDER BY date ASC LIMIT 91;
+# Time: 150510 16:31:11
+# User@Host: root[root] @ localhost []
+# Query_time: 0.330801  Lock_time: 0.000049 Rows_sent: 80  Rows_examined: 80
+SET timestamp=1431264671;
+SELECT id, forum_id, message, likes, dislikes, author_id, isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot FROM post WHERE thread_id='1211'  ORDER BY date ASC LIMIT 80;
+# User@Host: root[root] @ localhost []
+# Query_time: 0.220694  Lock_time: 0.000071 Rows_sent: 48  Rows_examined: 48
+SET timestamp=1431264671;
+SELECT id, forum_id, message, likes, dislikes, author_id, isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot FROM post WHERE thread_id='2078'  ORDER BY date ASC LIMIT 48;
+# Time: 150510 16:31:13
+# User@Host: root[root] @ localhost []
+# Query_time: 0.350770  Lock_time: 0.000045 Rows_sent: 91  Rows_examined: 91
+SET timestamp=1431264673;
+SELECT id, forum_id, message, likes, dislikes, author_id, isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot FROM post WHERE thread_id='7144'  ORDER BY date DESC LIMIT 91;
+# User@Host: root[root] @ localhost []
+# Query_time: 0.277998  Lock_time: 0.000049 Rows_sent: 69  Rows_examined: 69
+SET timestamp=1431264673;
+SELECT id, forum_id, message, likes, dislikes, author_id, isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot FROM post WHERE thread_id='1467'  ORDER BY date DESC LIMIT 69;
+# User@Host: root[root] @ localhost []
+# Query_time: 0.247647  Lock_time: 0.000042 Rows_sent: 69  Rows_examined: 69
+SET timestamp=1431264673;
+SELECT id, forum_id, message, likes, dislikes, author_id, isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot FROM post WHERE thread_id='138'  ORDER BY date DESC LIMIT 69;
+# Time: 150510 16:31:14
+# User@Host: root[root] @ localhost []
+# Query_time: 0.252242  Lock_time: 0.000052 Rows_sent: 69  Rows_examined: 69
+SET timestamp=1431264674;
+SELECT id, forum_id, message, likes, dislikes, author_id, isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot FROM post WHERE thread_id='9539'  ORDER BY date DESC LIMIT 69;
+# User@Host: root[root] @ localhost []
+# Query_time: 0.217296  Lock_time: 0.000046 Rows_sent: 57  Rows_examined: 57
+SET timestamp=1431264674;
+SELECT id, forum_id, message, likes, dislikes, author_id, isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot FROM post WHERE thread_id='6213'  ORDER BY date ASC LIMIT 57;
+# User@Host: root[root] @ localhost []
+# Query_time: 0.218551  Lock_time: 0.000046 Rows_sent: 72  Rows_examined: 72
+SET timestamp=1431264674;
+SELECT id, forum_id, message, likes, dislikes, author_id, isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot FROM post WHERE thread_id='7980'  ORDER BY date ASC LIMIT 72;
+# Time: 150510 16:31:15
+# User@Host: root[root] @ localhost []
+# Query_time: 0.291819  Lock_time: 0.000047 Rows_sent: 78  Rows_examined: 78
+SET timestamp=1431264675;
+SELECT id, forum_id, message, likes, dislikes, author_id, isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot FROM post WHERE thread_id='292'  ORDER BY date DESC LIMIT 78;
+# User@Host: root[root] @ localhost []
+# Query_time: 0.254477  Lock_time: 0.000047 Rows_sent: 89  Rows_examined: 89
+SET timestamp=1431264675;
+SELECT id, forum_id, message, likes, dislikes, author_id, isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot FROM post WHERE thread_id='2267'  ORDER BY date ASC LIMIT 96;
+# User@Host: root[root] @ localhost []
+# Query_time: 0.359278  Lock_time: 0.000082 Rows_sent: 76  Rows_examined: 76
+SET timestamp=1431264675;
+SELECT id, forum_id, message, likes, dislikes, author_id, isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot FROM post WHERE thread_id='9040'  ORDER BY date DESC LIMIT 76;
+# Time: 150510 16:31:16
+# User@Host: root[root] @ localhost []
+# Query_time: 0.376366  Lock_time: 0.000049 Rows_sent: 90  Rows_examined: 90
+SET timestamp=1431264676;
+SELECT id, forum_id, message, likes, dislikes, author_id, isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot FROM post WHERE thread_id='9586'  ORDER BY date ASC LIMIT 90;
+# Time: 150510 16:31:17
+# User@Host: root[root] @ localhost []
+# Query_time: 0.217525  Lock_time: 0.000039 Rows_sent: 92  Rows_examined: 92
+SET timestamp=1431264677;
+SELECT id, forum_id, message, likes, dislikes, author_id, isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot FROM post WHERE thread_id='3828'  ORDER BY date DESC LIMIT 92;
+# Time: 150510 16:31:18
+# User@Host: root[root] @ localhost []
+# Query_time: 0.207087  Lock_time: 0.000055 Rows_sent: 61  Rows_examined: 61
+SET timestamp=1431264678;
+SELECT id, forum_id, message, likes, dislikes, author_id, isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot FROM post WHERE thread_id='6164'  ORDER BY date DESC LIMIT 61;
+# Time: 150510 16:31:19
+# User@Host: root[root] @ localhost []
+# Query_time: 0.379602  Lock_time: 0.000054 Rows_sent: 78  Rows_examined: 78
+SET timestamp=1431264679;
+SELECT id, forum_id, message, likes, dislikes, author_id, isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot FROM post WHERE thread_id='7254'  ORDER BY date ASC LIMIT 78;
+# Time: 150510 16:31:21
+# User@Host: root[root] @ localhost []
+# Query_time: 0.234979  Lock_time: 0.000050 Rows_sent: 84  Rows_examined: 84
+SET timestamp=1431264681;
+SELECT id, forum_id, message, likes, dislikes, author_id, isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot FROM post WHERE thread_id='4905'  ORDER BY date DESC LIMIT 84;
+# Time: 150510 16:31:22
+# User@Host: root[root] @ localhost []
+# Query_time: 0.212119  Lock_time: 0.000043 Rows_sent: 88  Rows_examined: 88
+SET timestamp=1431264682;
+SELECT id, forum_id, message, likes, dislikes, author_id, isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot FROM post WHERE thread_id='7277'  ORDER BY date ASC LIMIT 88;
+# Time: 150510 16:31:23
+# User@Host: root[root] @ localhost []
+# Query_time: 0.203660  Lock_time: 0.000045 Rows_sent: 55  Rows_examined: 55
+SET timestamp=1431264683;
+SELECT id, forum_id, message, likes, dislikes, author_id, isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot FROM post WHERE thread_id='8547'  ORDER BY date DESC LIMIT 55;
+# User@Host: root[root] @ localhost []
+# Query_time: 0.289820  Lock_time: 0.000046 Rows_sent: 80  Rows_examined: 80
+SET timestamp=1431264683;
+SELECT id, forum_id, message, likes, dislikes, author_id, isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot FROM post WHERE thread_id='6864'  ORDER BY date DESC LIMIT 80;
+# Time: 150510 16:31:24
+# User@Host: root[root] @ localhost []
+# Query_time: 0.203958  Lock_time: 0.000042 Rows_sent: 75  Rows_examined: 75
+SET timestamp=1431264684;
+SELECT id, forum_id, message, likes, dislikes, author_id, isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot FROM post WHERE thread_id='9630'  ORDER BY date ASC LIMIT 75;
+# User@Host: root[root] @ localhost []
+# Query_time: 0.200791  Lock_time: 0.000045 Rows_sent: 80  Rows_examined: 80
+SET timestamp=1431264684;
+SELECT id, forum_id, message, likes, dislikes, author_id, isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot FROM post WHERE thread_id='3757'  ORDER BY date DESC LIMIT 80;
+# Time: 150510 16:31:25
+# User@Host: root[root] @ localhost []
+# Query_time: 0.269131  Lock_time: 0.000081 Rows_sent: 87  Rows_examined: 87
+SET timestamp=1431264685;
+SELECT id, forum_id, message, likes, dislikes, author_id, isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot FROM post WHERE thread_id='4838'  ORDER BY date ASC LIMIT 100;
+# Time: 150510 16:31:27
+# User@Host: root[root] @ localhost []
+# Query_time: 0.295965  Lock_time: 0.000043 Rows_sent: 90  Rows_examined: 90
+SET timestamp=1431264687;
+SELECT id, forum_id, message, likes, dislikes, author_id, isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot FROM post WHERE thread_id='2801'  ORDER BY date DESC LIMIT 90;
+# User@Host: root[root] @ localhost []
+# Query_time: 0.238392  Lock_time: 0.000043 Rows_sent: 96  Rows_examined: 96
+SET timestamp=1431264687;
+SELECT id, forum_id, message, likes, dislikes, author_id, isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot FROM post WHERE thread_id='1465'  ORDER BY date ASC LIMIT 96;
+# Time: 150510 16:31:29
+# User@Host: root[root] @ localhost []
+# Query_time: 0.200575  Lock_time: 0.000049 Rows_sent: 83  Rows_examined: 83
+SET timestamp=1431264689;
+SELECT id, forum_id, message, likes, dislikes, author_id, isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot FROM post WHERE thread_id='4124'  ORDER BY date ASC LIMIT 83;
+# Time: 150510 16:31:30
+# User@Host: root[root] @ localhost []
+# Query_time: 0.271357  Lock_time: 0.000060 Rows_sent: 95  Rows_examined: 95
+SET timestamp=1431264690;
+SELECT id, forum_id, message, likes, dislikes, author_id, isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot FROM post WHERE thread_id='135'  ORDER BY date DESC LIMIT 95;
+# Time: 150510 16:31:33
+# User@Host: root[root] @ localhost []
+# Query_time: 0.232990  Lock_time: 0.000050 Rows_sent: 78  Rows_examined: 78
+SET timestamp=1431264693;
+SELECT id, forum_id, message, likes, dislikes, author_id, isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot FROM post WHERE thread_id='9173'  ORDER BY date DESC LIMIT 78;
+# User@Host: root[root] @ localhost []
+# Query_time: 0.219539  Lock_time: 0.000050 Rows_sent: 100  Rows_examined: 100
+SET timestamp=1431264693;
+SELECT id, forum_id, message, likes, dislikes, author_id, isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot FROM post WHERE thread_id='721'  ORDER BY date DESC LIMIT 100;
+# Time: 150510 16:31:35
+# User@Host: root[root] @ localhost []
+# Query_time: 0.207669  Lock_time: 0.000047 Rows_sent: 64  Rows_examined: 64
+SET timestamp=1431264695;
+SELECT id, forum_id, message, likes, dislikes, author_id, isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot FROM post WHERE thread_id='6068'  ORDER BY date ASC LIMIT 64;
+# Time: 150510 16:31:36
+# User@Host: root[root] @ localhost []
+# Query_time: 0.303568  Lock_time: 0.000052 Rows_sent: 82  Rows_examined: 82
+SET timestamp=1431264696;
+SELECT id, forum_id, message, likes, dislikes, author_id, isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot FROM post WHERE thread_id='4315'  ORDER BY date ASC LIMIT 82;
+# Time: 150510 16:31:37
+# User@Host: root[root] @ localhost []
+# Query_time: 0.250091  Lock_time: 0.000045 Rows_sent: 83  Rows_examined: 83
+SET timestamp=1431264697;
+SELECT id, forum_id, message, likes, dislikes, author_id, isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot FROM post WHERE thread_id='1747'  ORDER BY date DESC LIMIT 83;
+# User@Host: root[root] @ localhost []
+# Query_time: 0.232950  Lock_time: 0.000050 Rows_sent: 70  Rows_examined: 70
+SET timestamp=1431264697;
+SELECT id, forum_id, message, likes, dislikes, author_id, isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot FROM post WHERE thread_id='6793'  ORDER BY date DESC LIMIT 70;
+# Time: 150510 16:31:40
+# User@Host: root[root] @ localhost []
+# Query_time: 0.301244  Lock_time: 0.000049 Rows_sent: 99  Rows_examined: 99
+SET timestamp=1431264700;
+SELECT id, forum_id, message, likes, dislikes, author_id, isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot FROM post WHERE thread_id='2768'  ORDER BY date DESC LIMIT 99;
+# Time: 150510 16:31:44
+# User@Host: root[root] @ localhost []
+# Query_time: 0.210766  Lock_time: 0.000053 Rows_sent: 0  Rows_examined: 92
+SET timestamp=1431264704;
+UPDATE post SET isDeleted = TRUE WHERE thread_id = 6348;
+# Time: 150510 16:31:56
+# User@Host: root[root] @ localhost []
+# Query_time: 0.247309  Lock_time: 0.000041 Rows_sent: 95  Rows_examined: 95
+SET timestamp=1431264716;
+SELECT id, forum_id, message, likes, dislikes, author_id, isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot FROM post WHERE thread_id='6322'  ORDER BY date DESC LIMIT 95;
+# User@Host: root[root] @ localhost []
+# Query_time: 0.236993  Lock_time: 0.000038 Rows_sent: 84  Rows_examined: 84
+SET timestamp=1431264716;
+SELECT id, forum_id, message, likes, dislikes, author_id, isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot FROM post WHERE thread_id='3572'  ORDER BY date ASC LIMIT 84;
+# Time: 150510 16:31:58
+# User@Host: root[root] @ localhost []
+# Query_time: 0.275684  Lock_time: 0.000045 Rows_sent: 100  Rows_examined: 100
+SET timestamp=1431264718;
+SELECT id, forum_id, message, likes, dislikes, author_id, isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot FROM post WHERE thread_id='5659'  ORDER BY date DESC LIMIT 100;
+# Time: 150510 16:31:59
+# User@Host: root[root] @ localhost []
+# Query_time: 0.260331  Lock_time: 0.000051 Rows_sent: 61  Rows_examined: 61
+SET timestamp=1431264719;
+SELECT id, forum_id, message, likes, dislikes, author_id, isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot FROM post WHERE thread_id='9168'  ORDER BY date ASC LIMIT 61;
+# User@Host: root[root] @ localhost []
+# Query_time: 0.406693  Lock_time: 0.000055 Rows_sent: 0  Rows_examined: 102
+SET timestamp=1431264719;
+UPDATE post SET isDeleted = TRUE WHERE thread_id = 9552;
+# User@Host: root[root] @ localhost []
+# Query_time: 0.236479  Lock_time: 0.000045 Rows_sent: 42  Rows_examined: 42
+SET timestamp=1431264719;
+SELECT id, forum_id, message, likes, dislikes, author_id, isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot FROM post WHERE thread_id='2392'  ORDER BY date ASC LIMIT 42;
+# Time: 150510 16:32:00
+# User@Host: root[root] @ localhost []
+# Query_time: 0.334664  Lock_time: 0.000044 Rows_sent: 92  Rows_examined: 92
+SET timestamp=1431264720;
+SELECT id, forum_id, message, likes, dislikes, author_id, isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot FROM post WHERE thread_id='808'  ORDER BY date DESC LIMIT 96;
+# Time: 150510 16:32:07
+# User@Host: root[root] @ localhost []
+# Query_time: 0.202082  Lock_time: 0.000050 Rows_sent: 86  Rows_examined: 86
+SET timestamp=1431264727;
+SELECT id, forum_id, message, likes, dislikes, author_id, isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot FROM post WHERE thread_id='6183'  ORDER BY date ASC LIMIT 86;
+# Time: 150510 16:32:12
+# User@Host: root[root] @ localhost []
+# Query_time: 0.254266  Lock_time: 0.000048 Rows_sent: 92  Rows_examined: 92
+SET timestamp=1431264732;
+SELECT id, forum_id, message, likes, dislikes, author_id, isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot FROM post WHERE thread_id='291'  ORDER BY date ASC LIMIT 92;
+# Time: 150510 16:32:13
+# User@Host: root[root] @ localhost []
+# Query_time: 0.211647  Lock_time: 0.000097 Rows_sent: 80  Rows_examined: 80
+SET timestamp=1431264733;
+SELECT id, forum_id, message, likes, dislikes, author_id, isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot FROM post WHERE thread_id='8170'  ORDER BY date DESC LIMIT 80;
+# Time: 150510 16:32:16
+# User@Host: root[root] @ localhost []
+# Query_time: 0.252222  Lock_time: 0.000047 Rows_sent: 93  Rows_examined: 93
+SET timestamp=1431264736;
+SELECT id, forum_id, message, likes, dislikes, author_id, isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot FROM post WHERE thread_id='4475'  ORDER BY date DESC LIMIT 93;
+# User@Host: root[root] @ localhost []
+# Query_time: 0.218791  Lock_time: 0.000049 Rows_sent: 89  Rows_examined: 89
+SET timestamp=1431264736;
+SELECT id, forum_id, message, likes, dislikes, author_id, isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot FROM post WHERE thread_id='584'  ORDER BY date ASC LIMIT 98;
+# Time: 150510 16:32:24
+# User@Host: root[root] @ localhost []
+# Query_time: 0.226618  Lock_time: 0.000043 Rows_sent: 79  Rows_examined: 79
+SET timestamp=1431264744;
+SELECT id, forum_id, message, likes, dislikes, author_id, isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot FROM post WHERE thread_id='1313'  ORDER BY date ASC LIMIT 79;
+# User@Host: root[root] @ localhost []
+# Query_time: 0.321051  Lock_time: 0.000059 Rows_sent: 79  Rows_examined: 79
+SET timestamp=1431264744;
+SELECT id, forum_id, message, likes, dislikes, author_id, isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot FROM post WHERE thread_id='9829'  ORDER BY date ASC LIMIT 79;
+# Time: 150510 16:32:28
+# User@Host: root[root] @ localhost []
+# Query_time: 0.247731  Lock_time: 0.000047 Rows_sent: 87  Rows_examined: 87
+SET timestamp=1431264748;
+SELECT id, forum_id, message, likes, dislikes, author_id, isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot FROM post WHERE thread_id='6226'  ORDER BY date DESC LIMIT 88;
+# User@Host: root[root] @ localhost []
+# Query_time: 0.274961  Lock_time: 0.000049 Rows_sent: 75  Rows_examined: 75
+SET timestamp=1431264748;
+SELECT id, forum_id, message, likes, dislikes, author_id, isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot FROM post WHERE thread_id='5774'  ORDER BY date DESC LIMIT 75;
+# Time: 150510 16:32:29
+# User@Host: root[root] @ localhost []
+# Query_time: 0.204314  Lock_time: 0.000039 Rows_sent: 86  Rows_examined: 86
+SET timestamp=1431264749;
+SELECT id, forum_id, message, likes, dislikes, author_id, isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot FROM post WHERE thread_id='6957'  ORDER BY date ASC LIMIT 91;
+# Time: 150510 16:32:45
+# User@Host: root[root] @ localhost []
+# Query_time: 0.238445  Lock_time: 0.000046 Rows_sent: 84  Rows_examined: 84
+SET timestamp=1431264765;
+SELECT id, forum_id, message, likes, dislikes, author_id, isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot FROM post WHERE thread_id='7333'  ORDER BY date ASC LIMIT 84;
+# Time: 150510 16:32:50
+# User@Host: root[root] @ localhost []
+# Query_time: 0.217618  Lock_time: 0.000042 Rows_sent: 96  Rows_examined: 96
+SET timestamp=1431264770;
+SELECT id, forum_id, message, likes, dislikes, author_id, isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot FROM post WHERE thread_id='8715'  ORDER BY date DESC LIMIT 98;
+# Time: 150510 16:32:51
+# User@Host: root[root] @ localhost []
+# Query_time: 0.205830  Lock_time: 0.000045 Rows_sent: 77  Rows_examined: 77
+SET timestamp=1431264771;
+SELECT id, forum_id, message, likes, dislikes, author_id, isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot FROM post WHERE thread_id='4469'  ORDER BY date DESC LIMIT 77;
+# Time: 150510 16:32:52
+# User@Host: root[root] @ localhost []
+# Query_time: 0.279112  Lock_time: 0.000054 Rows_sent: 0  Rows_examined: 95
+SET timestamp=1431264772;
+UPDATE post SET isDeleted = TRUE WHERE thread_id = 2678;
+# Time: 150510 16:32:53
+# User@Host: root[root] @ localhost []
+# Query_time: 0.223922  Lock_time: 0.000050 Rows_sent: 100  Rows_examined: 100
+SET timestamp=1431264773;
+SELECT id, forum_id, message, likes, dislikes, author_id, isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot FROM post WHERE thread_id='731'  ORDER BY date DESC LIMIT 100;
+# Time: 150510 16:32:54
+# User@Host: root[root] @ localhost []
+# Query_time: 0.223694  Lock_time: 0.000048 Rows_sent: 76  Rows_examined: 76
+SET timestamp=1431264774;
+SELECT id, forum_id, message, likes, dislikes, author_id, isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot FROM post WHERE thread_id='287'  ORDER BY date ASC LIMIT 76;
+# User@Host: root[root] @ localhost []
+# Query_time: 0.319952  Lock_time: 0.000044 Rows_sent: 75  Rows_examined: 75
+SET timestamp=1431264774;
+SELECT id, forum_id, message, likes, dislikes, author_id, isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot FROM post WHERE thread_id='1251'  ORDER BY date DESC LIMIT 75;
+# Time: 150510 16:32:59
+# User@Host: root[root] @ localhost []
+# Query_time: 0.207245  Lock_time: 0.000059 Rows_sent: 70  Rows_examined: 70
+SET timestamp=1431264779;
+SELECT id, forum_id, message, likes, dislikes, author_id, isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot FROM post WHERE thread_id='9466'  ORDER BY date DESC LIMIT 70;
+# Time: 150510 16:33:02
+# User@Host: root[root] @ localhost []
+# Query_time: 0.240457  Lock_time: 0.000044 Rows_sent: 94  Rows_examined: 94
+SET timestamp=1431264782;
+SELECT id, forum_id, message, likes, dislikes, author_id, isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot FROM post WHERE thread_id='212'  ORDER BY date ASC LIMIT 94;
+# Time: 150510 16:33:16
+# User@Host: root[root] @ localhost []
+# Query_time: 0.205757  Lock_time: 0.000095 Rows_sent: 90  Rows_examined: 90
+SET timestamp=1431264796;
+SELECT id, forum_id, message, likes, dislikes, author_id, isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot FROM post WHERE thread_id='5883'  ORDER BY date DESC LIMIT 90;
+# Time: 150510 16:33:18
+# User@Host: root[root] @ localhost []
+# Query_time: 0.203138  Lock_time: 0.000043 Rows_sent: 93  Rows_examined: 93
+SET timestamp=1431264798;
+SELECT id, forum_id, message, likes, dislikes, author_id, isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot FROM post WHERE thread_id='6479'  ORDER BY date DESC LIMIT 97;
+# Time: 150510 16:33:21
+# User@Host: root[root] @ localhost []
+# Query_time: 0.201129  Lock_time: 0.000048 Rows_sent: 87  Rows_examined: 87
+SET timestamp=1431264801;
+SELECT id, forum_id, message, likes, dislikes, author_id, isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot FROM post WHERE thread_id='7670'  ORDER BY date DESC LIMIT 87;
+# Time: 150510 16:33:22
+# User@Host: root[root] @ localhost []
+# Query_time: 0.228446  Lock_time: 0.000041 Rows_sent: 86  Rows_examined: 86
+SET timestamp=1431264802;
+SELECT id, forum_id, message, likes, dislikes, author_id, isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot FROM post WHERE thread_id='5980'  ORDER BY date DESC LIMIT 86;
+# Time: 150510 16:33:23
+# User@Host: root[root] @ localhost []
+# Query_time: 0.247159  Lock_time: 0.000047 Rows_sent: 67  Rows_examined: 67
+SET timestamp=1431264803;
+SELECT id, forum_id, message, likes, dislikes, author_id, isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot FROM post WHERE thread_id='3217'  ORDER BY date ASC LIMIT 67;
+# Time: 150510 16:33:26
+# User@Host: root[root] @ localhost []
+# Query_time: 0.258639  Lock_time: 0.000055 Rows_sent: 0  Rows_examined: 96
+SET timestamp=1431264806;
+UPDATE post SET isDeleted = TRUE WHERE thread_id = 6061;
+# User@Host: root[root] @ localhost []
+# Query_time: 0.311971  Lock_time: 0.000045 Rows_sent: 87  Rows_examined: 87
+SET timestamp=1431264806;
+SELECT id, forum_id, message, likes, dislikes, author_id, isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot FROM post WHERE thread_id='7076'  ORDER BY date DESC LIMIT 87;
+# Time: 150510 16:33:27
+# User@Host: root[root] @ localhost []
+# Query_time: 0.295232  Lock_time: 0.000049 Rows_sent: 97  Rows_examined: 97
+SET timestamp=1431264807;
+SELECT id, forum_id, message, likes, dislikes, author_id, isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot FROM post WHERE thread_id='3118'  ORDER BY date ASC LIMIT 97;
+# Time: 150510 16:33:34
+# User@Host: root[root] @ localhost []
+# Query_time: 0.252239  Lock_time: 0.000045 Rows_sent: 89  Rows_examined: 89
+SET timestamp=1431264814;
+SELECT id, forum_id, message, likes, dislikes, author_id, isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot FROM post WHERE thread_id='8245'  ORDER BY date ASC LIMIT 89;
+# User@Host: root[root] @ localhost []
+# Query_time: 0.248828  Lock_time: 0.000045 Rows_sent: 88  Rows_examined: 88
+SET timestamp=1431264814;
+SELECT id, forum_id, message, likes, dislikes, author_id, isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot FROM post WHERE thread_id='7211'  ORDER BY date DESC LIMIT 88;
+# Time: 150510 16:33:35
+# User@Host: root[root] @ localhost []
+# Query_time: 0.200751  Lock_time: 0.000039 Rows_sent: 86  Rows_examined: 86
+SET timestamp=1431264815;
+SELECT id, forum_id, message, likes, dislikes, author_id, isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot FROM post WHERE thread_id='5188'  ORDER BY date DESC LIMIT 86;
+# Time: 150510 16:33:39
+# User@Host: root[root] @ localhost []
+# Query_time: 0.210366  Lock_time: 0.000047 Rows_sent: 95  Rows_examined: 95
+SET timestamp=1431264819;
+SELECT id, forum_id, message, likes, dislikes, author_id, isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot FROM post WHERE thread_id='170'  ORDER BY date DESC LIMIT 95;
+# Time: 150510 16:33:40
+# User@Host: root[root] @ localhost []
+# Query_time: 0.278655  Lock_time: 0.000039 Rows_sent: 79  Rows_examined: 79
+SET timestamp=1431264820;
+SELECT id, forum_id, message, likes, dislikes, author_id, isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot FROM post WHERE thread_id='4728'  ORDER BY date DESC LIMIT 79;
+# Time: 150510 16:33:42
+# User@Host: root[root] @ localhost []
+# Query_time: 0.227714  Lock_time: 0.000043 Rows_sent: 83  Rows_examined: 83
+SET timestamp=1431264822;
+SELECT id, forum_id, message, likes, dislikes, author_id, isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot FROM post WHERE thread_id='9611'  ORDER BY date DESC LIMIT 83;
+# Time: 150510 16:33:50
+# User@Host: root[root] @ localhost []
+# Query_time: 0.240667  Lock_time: 0.000051 Rows_sent: 100  Rows_examined: 100
+SET timestamp=1431264830;
+SELECT id, forum_id, message, likes, dislikes, author_id, isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot FROM post WHERE thread_id='7042'  ORDER BY date ASC LIMIT 100;
+# Time: 150510 16:33:52
+# User@Host: root[root] @ localhost []
+# Query_time: 0.240302  Lock_time: 0.000046 Rows_sent: 84  Rows_examined: 84
+SET timestamp=1431264832;
+SELECT id, forum_id, message, likes, dislikes, author_id, isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot FROM post WHERE thread_id='2109'  ORDER BY date ASC LIMIT 84;
+# User@Host: root[root] @ localhost []
+# Query_time: 0.233689  Lock_time: 0.000040 Rows_sent: 85  Rows_examined: 85
+SET timestamp=1431264832;
+SELECT id, forum_id, message, likes, dislikes, author_id, isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot FROM post WHERE thread_id='1107'  ORDER BY date DESC LIMIT 88;
+# Time: 150510 16:33:53
+# User@Host: root[root] @ localhost []
+# Query_time: 0.239702  Lock_time: 0.000051 Rows_sent: 94  Rows_examined: 94
+SET timestamp=1431264833;
+SELECT id, forum_id, message, likes, dislikes, author_id, isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot FROM post WHERE thread_id='490'  ORDER BY date ASC LIMIT 99;
+# Time: 150510 16:33:58
+# User@Host: root[root] @ localhost []
+# Query_time: 0.210854  Lock_time: 0.000090 Rows_sent: 95  Rows_examined: 95
+SET timestamp=1431264838;
+SELECT id, forum_id, message, likes, dislikes, author_id, isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot FROM post WHERE thread_id='9917'  ORDER BY date DESC LIMIT 95;
+# Time: 150510 16:33:59
+# User@Host: root[root] @ localhost []
+# Query_time: 0.295517  Lock_time: 0.000060 Rows_sent: 87  Rows_examined: 87
+SET timestamp=1431264839;
+SELECT id, forum_id, message, likes, dislikes, author_id, isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot FROM post WHERE thread_id='479'  ORDER BY date ASC LIMIT 87;
+# Time: 150510 16:34:04
+# User@Host: root[root] @ localhost []
+# Query_time: 0.260250  Lock_time: 0.000043 Rows_sent: 98  Rows_examined: 98
+SET timestamp=1431264844;
+SELECT id, forum_id, message, likes, dislikes, author_id, isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot FROM post WHERE thread_id='5348'  ORDER BY date DESC LIMIT 98;
+# Time: 150510 16:34:10
+# User@Host: root[root] @ localhost []
+# Query_time: 0.202409  Lock_time: 0.000048 Rows_sent: 97  Rows_examined: 97
+SET timestamp=1431264850;
+SELECT id, forum_id, message, likes, dislikes, author_id, isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot FROM post WHERE thread_id='6194'  ORDER BY date DESC LIMIT 100;
+# Time: 150510 16:34:20
+# User@Host: root[root] @ localhost []
+# Query_time: 0.201383  Lock_time: 0.000080 Rows_sent: 87  Rows_examined: 87
+SET timestamp=1431264860;
+SELECT id, forum_id, message, likes, dislikes, author_id, isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot FROM post WHERE thread_id='570'  ORDER BY date DESC LIMIT 87;
+# Time: 150510 16:34:30
+# User@Host: root[root] @ localhost []
+# Query_time: 0.227067  Lock_time: 0.000041 Rows_sent: 84  Rows_examined: 84
+SET timestamp=1431264870;
+SELECT id, forum_id, message, likes, dislikes, author_id, isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot FROM post WHERE thread_id='3054'  ORDER BY date ASC LIMIT 84;
+# Time: 150510 16:34:56
+# User@Host: root[root] @ localhost []
+# Query_time: 0.214741  Lock_time: 0.000047 Rows_sent: 100  Rows_examined: 100
+SET timestamp=1431264896;
+SELECT id, forum_id, message, likes, dislikes, author_id, isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot FROM post WHERE thread_id='9182'  ORDER BY date DESC LIMIT 100;
+# Time: 150510 16:34:57
+# User@Host: root[root] @ localhost []
+# Query_time: 0.247558  Lock_time: 0.000051 Rows_sent: 76  Rows_examined: 76
+SET timestamp=1431264897;
+SELECT id, forum_id, message, likes, dislikes, author_id, isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot FROM post WHERE thread_id='5798'  ORDER BY date ASC LIMIT 76;
