@@ -9,6 +9,44 @@ def list_users():
 	short = request.args.get('forum')
 	if short is None:
 		return didntFind('forum short name')
+	#select user.* FROM user where id in (select distinct author_id from post where forum_id=6) order by user.name desc limit 44;
+	since = request.args.get('since_id')	
+	order = request.args.get('order')
+	limit = request.args.get('limit')
+	extra = sinceOrderLimit(since, order, limit, orderby='user.name', sinceWhat='user.id')	
+	if extra == False:
+		return badExtra()
+	
+	
+	resp = []
+	conn = mysql.connect()
+	cursor = conn.cursor()
+	forum_id = getForumIdByShortname(cursor, short)
+	if forum_id is None:
+		cursor.close()
+		conn.close()
+		return dontExist('forum')
+	query = ("select "+user_fields+" FROM user where id in "
+	"(select distinct author_id from post where forum_id="+str(forum_id)+") "
+	+extra +";")
+	cursor.execute(query)
+	alldata = cursor.fetchall()
+	
+	for data in alldata:
+		subresp = {}
+		parseUserData(cursor, subresp, data)
+		resp.append(subresp)
+		
+	cursor.close()
+	conn.close()
+	return OK(resp)
+
+@app.route('/db/api/forum/listUsersOld/', methods = ['GET'])
+def list_usersOld():
+	
+	short = request.args.get('forum')
+	if short is None:
+		return didntFind('forum short name')
 	
 	since = request.args.get('since_id')	
 	order = request.args.get('order')

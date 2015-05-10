@@ -177,7 +177,7 @@ def sinceOrderLimit(since, order, limit, orderby='date', sinceWhat='date'):
 	return extra	
 
 def getOrderExtra(order, by):
-	if not isinstance(order, basestring):
+	if order is not None and not isinstance(order, basestring):
 		return False
 	if order is None or order.lower() == 'desc':
 		return "ORDER BY " + by + " DESC"
