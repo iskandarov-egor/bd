@@ -495,7 +495,7 @@ def getPostsResp(resp, cursor, forum_short=None, thread_id=None, user_email=None
 			return False
 		query += "forum_id=%s "
 	elif thread_id is not None:
-		param = thread_id
+		param = int(thread_id)
 		if getThreadIdById(cursor, thread_id) is None:
 			return False
 		query += "thread_id=%s "
