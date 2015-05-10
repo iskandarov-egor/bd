@@ -135,7 +135,7 @@ def un_follow_user():
 		return dontExist('followee')
 		
 	if isFollow:
-		query = ("INSERT INTO following (follower_id, followee_id) "
+		query = ("INSERT IGNORE INTO following (follower_id, followee_id) "
 				"VALUES(%s, %s);")
 	else:
 		query = "DELETE FROM following WHERE follower_id = %s AND followee_id = %s"		
