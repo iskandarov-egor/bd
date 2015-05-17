@@ -1,4 +1,4 @@
-from app import mysql, app
+from app import mysql, app, conn
 from flask import request, jsonify
 import MySQLdb
 from shortcuts import *
@@ -36,7 +36,7 @@ def thread_vote():
 		try:
 			isSpam = request.json['isSpam']
 						
-		conn = mysql.connect()
+		#conn =mysql.connect()
 		cursor = conn.cursor()
 				
 		forum_id = getForumIdByShortname(cursor, forum_short)
@@ -100,7 +100,7 @@ def list_threads():
 		order = request.args.get('order')	
 		
 		resp = []
-		conn = mysql.connect()
+		#conn =mysql.connect()
 		cursor = conn.cursor()
 		
 		if getThreadsResp(resp, cursor, forum_short, user_email) == False:

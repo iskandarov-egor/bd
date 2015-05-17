@@ -1,4 +1,4 @@
-from app import app, mysql
+from app import app, mysql, conn
 from flask import request, jsonify
 import MySQLdb
 
@@ -22,7 +22,7 @@ def create_user():
 		isAnonymous = request.json['isAnonymous']
 		if type(isAnonymous) is not bool:
 			return wrongTypes()
-	conn = mysql.connect()
+	#conn = mysql.connect()
 	cursor = conn.cursor()
 	try:
 		
@@ -31,7 +31,7 @@ def create_user():
 		cursor.execute(query, (username, about, name, email, isAnonymous))
 		conn.commit()
 		cursor.close()
-		conn.close()
+		#conn.close()
 		resp = {}
 		resp['about'] = about
 		resp['email'] = email
@@ -43,7 +43,7 @@ def create_user():
 		return OK(resp)
 	except MySQLdb.IntegrityError as err:
 		cursor.close()
-		conn.close()
+		#conn.close()
 		tosend = {}
 		tosend['code'] = 5
 		tosend['response'] = 'user with this email already exists'	
@@ -58,14 +58,14 @@ def get_user_details():
 		didntFind('user email')
 	
 	resp = {}
-	conn = mysql.connect()
+	#conn = mysql.connect()
 	cursor = conn.cursor()
 	if False == getUserResp(resp, cursor, email):
 		cursor.close()
-		conn.close()
+		#conn.close()
 		return dontExist('user')	
 	cursor.close()
-	conn.close()
+	#conn.close()
 	tosend['code'] = 0
 	tosend['response'] = resp
 	return jsonify(**tosend)
@@ -81,12 +81,12 @@ def list_followers_ees():
 		return didntFind('user email')
 	
 	resp = []
-	conn = mysql.connect()
+	#conn = mysql.connect()
 	cursor = conn.cursor()
 	id = getUserByEmail(email, cursor)
 	if id is None:
 		cursor.close()
-		conn.close()
+		#conn.close()
 		return dontExist('user')
 	
 	since = request.args.get('since_id')
@@ -100,7 +100,7 @@ def list_followers_ees():
 	else:
 		getFollowersResp(cursor, id, resp, True, extra)	
 	cursor.close()
-	conn.close()
+	#conn.close()
 	tosend['code'] = 0
 	tosend['response'] = resp	
 			
@@ -121,17 +121,17 @@ def un_follow_user():
 		return wrongTypes()
 	
 	resp = {}
-	conn = mysql.connect()
+	#conn = mysql.connect()
 	cursor = conn.cursor()
 	follower_id = getUserByEmail(follower_email, cursor)
 	followee_id = getUserByEmail(followee_email, cursor)
 	if follower_id is None:
 		cursor.close()
-		conn.close()
+		#conn.close()
 		return dontExist('follower')
 	if followee_id is None:
 		cursor.close()
-		conn.close()
+		#conn.close()
 		return dontExist('followee')
 		
 	if isFollow:
@@ -144,7 +144,7 @@ def un_follow_user():
 	
 	getUserResp(resp, cursor, id=follower_id)
 	cursor.close()
-	conn.close()
+	#conn.close()
 	tosend['code'] = 0
 	tosend['response'] = resp
 				
@@ -163,12 +163,12 @@ def update_profile():
 	if not (areOfType((email, name, about), basestring)):
 		return wrongTypes()
 	resp = {}
-	conn = mysql.connect()
+	#conn = mysql.connect()
 	cursor = conn.cursor()
 	id = getUserByEmail(email, cursor)
 	if id is None:
 		cursor.close()
-		conn.close()
+		#conn.close()
 		return dontExist('user')
 	
 	query = ("UPDATE user "
@@ -181,7 +181,7 @@ def update_profile():
 	
 	getUserResp(resp, cursor, id = id)
 	cursor.close()
-	conn.close()
+	#conn.close()
 	return OK(resp)
 
 
@@ -190,7 +190,7 @@ def clear():
 	if app.config['MYSQL_DATABASE_DB'] == 'forumdb0':
 		shutdown_server()
 		return "NO"
-	conn = mysql.connect()
+	#conn = mysql.connect()
 	cursor = conn.cursor()
 	cursor.execute("DELETE FROM subscription;")
 	cursor.execute("DELETE FROM following;")
@@ -200,7 +200,7 @@ def clear():
 	cursor.execute("DELETE FROM user;")
 	conn.commit()
 	cursor.close()
-	conn.close()
+	#conn.close()
 	tosend = {}
 	tosend['code'] = 0
 	tosend['response'] = "OK"
@@ -215,14 +215,14 @@ def shutdown_server():
 @app.route('/db/api/status/', methods = ['GET'])	
 def status():
 	resp = {}
-	conn = mysql.connect()
+	#conn = mysql.connect()
 	cursor = conn.cursor()
 	getStatus(resp, cursor, 'user')
 	getStatus(resp, cursor, 'forum')
 	getStatus(resp, cursor, 'thread')
 	getStatus(resp, cursor, 'post')
 	cursor.close()
-	conn.close()
+	#conn.close()
 	return OK(resp)
 
 @app.route('/', defaults={'path': ''})

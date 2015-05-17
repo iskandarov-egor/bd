@@ -1,4 +1,4 @@
-from app import app, mysql
+from app import app, mysql, conn
 from flask import request, jsonify
 import MySQLdb
 from shortcuts import *
@@ -19,12 +19,12 @@ def list_users():
 	
 	
 	resp = []
-	conn = mysql.connect()
+	#conn = mysql.connect()
 	cursor = conn.cursor()
 	forum_id = getForumIdByShortname(cursor, short)
 	if forum_id is None:
 		cursor.close()
-		conn.close()
+		#conn.close()
 		return dontExist('forum')
 	
 	query = ("select "+user_fields+" FROM user INNER JOIN forum_authors"
@@ -39,7 +39,7 @@ def list_users():
 		resp.append(subresp)
 		
 	cursor.close()
-	conn.close()
+	#conn.close()
 	return OK(resp)
 
 @app.route('/db/api/forum/listUsersOld/', methods = ['GET'])
@@ -56,14 +56,14 @@ def list_usersOld():
 	if extra == False:
 		return badExtra()
 	resp = []
-	conn = mysql.connect()
+	#conn = mysql.connect()
 	cursor = conn.cursor()
 	if getUsersResp(resp, cursor, extra, short) == False:
 		cursor.close()
-		conn.close()
+		#conn.close()
 		return didntFind('forum')
 	cursor.close()
-	conn.close()
+	#conn.close()
 	return OK(resp)
 
 @app.route('/db/api/forum/details/', methods = ['GET'])	
@@ -78,14 +78,14 @@ def get_forum_details():
 		return badJson('"related" parameter is incorrect')
 	
 	resp = {}
-	conn = mysql.connect()
+	#conn = mysql.connect()
 	cursor = conn.cursor()
 	if False == getForumResp(resp, cursor, short_name=shortname, related=related):
 		cursor.close()
-		conn.close()
+		#conn.close()
 		return dontExist('forum')
 	cursor.close()
-	conn.close()
+	#conn.close()
 	return OK(resp)
 
 @app.route('/db/api/forum/create/', methods = ['POST'])	
@@ -99,12 +99,12 @@ def create_forum():
 			return badTypes()
 	except:
 		return didntFind('short name, name and user')
-	conn = mysql.connect()
+	#conn = mysql.connect()
 	cursor = conn.cursor()	
 	id = getUserByEmail(email, cursor)
 	if id is None:
 		cursor.close()
-		conn.close()
+		#conn.close()
 		return dontExist('user')
 	resp = {}	
 	try:
@@ -123,5 +123,5 @@ def create_forum():
 		else:
 			getForumResp(resp, cursor, id=id)
 	cursor.close()
-	conn.close()
+	#conn.close()
 	return OK(resp)
