@@ -1,4 +1,4 @@
-from app import app, mysql, conn
+from app import app, mysql
 from flask import request, jsonify
 import MySQLdb
 
@@ -23,14 +23,14 @@ def create_user():
 		if type(isAnonymous) is not bool:
 			return wrongTypes()
 	#conn = mysql.connect()
-	cursor = conn.cursor()
+	cursor = mysql.connection.cursor()
 	try:
 		
 		query = ("INSERT INTO user (username, about, name, email, isAnonymous)"
 		"VALUES(%s, %s, %s, %s, %s);")
-		cursor.execute(query, (username, about, name, email, isAnonymous))
-		conn.commit()
-		cursor.close()
+		cursor.execute(query, [username, about, name, email, isAnonymous])
+		mysql.connection.commit()
+		#cursor.close()
 		#conn.close()
 		resp = {}
 		resp['about'] = about
@@ -42,7 +42,7 @@ def create_user():
 		
 		return OK(resp)
 	except MySQLdb.IntegrityError as err:
-		cursor.close()
+		#cursor.close()
 		#conn.close()
 		tosend = {}
 		tosend['code'] = 5
@@ -59,12 +59,12 @@ def get_user_details():
 	
 	resp = {}
 	#conn = mysql.connect()
-	cursor = conn.cursor()
+	cursor = mysql.connection.cursor()
 	if False == getUserResp(resp, cursor, email):
-		cursor.close()
+		#cursor.close()
 		#conn.close()
 		return dontExist('user')	
-	cursor.close()
+	#cursor.close()
 	#conn.close()
 	tosend['code'] = 0
 	tosend['response'] = resp
@@ -82,10 +82,10 @@ def list_followers_ees():
 	
 	resp = []
 	#conn = mysql.connect()
-	cursor = conn.cursor()
+	cursor = mysql.connection.cursor()
 	id = getUserByEmail(email, cursor)
 	if id is None:
-		cursor.close()
+		#cursor.close()
 		#conn.close()
 		return dontExist('user')
 	
@@ -99,7 +99,7 @@ def list_followers_ees():
 		getFollowersResp(cursor, id, resp, False, extra)
 	else:
 		getFollowersResp(cursor, id, resp, True, extra)	
-	cursor.close()
+	#cursor.close()
 	#conn.close()
 	tosend['code'] = 0
 	tosend['response'] = resp	
@@ -122,15 +122,15 @@ def un_follow_user():
 	
 	resp = {}
 	#conn = mysql.connect()
-	cursor = conn.cursor()
+	cursor = mysql.connection.cursor()
 	follower_id = getUserByEmail(follower_email, cursor)
 	followee_id = getUserByEmail(followee_email, cursor)
 	if follower_id is None:
-		cursor.close()
+		#cursor.close()
 		#conn.close()
 		return dontExist('follower')
 	if followee_id is None:
-		cursor.close()
+		#cursor.close()
 		#conn.close()
 		return dontExist('followee')
 		
@@ -139,11 +139,11 @@ def un_follow_user():
 				"VALUES(%s, %s);")
 	else:
 		query = "DELETE FROM following WHERE follower_id = %s AND followee_id = %s"		
-	cursor.execute(query, (follower_id, followee_id))		
-	conn.commit()	
+	cursor.execute(query, [follower_id, followee_id])		
+	mysql.connection.commit()	
 	
 	getUserResp(resp, cursor, id=follower_id)
-	cursor.close()
+	#cursor.close()
 	#conn.close()
 	tosend['code'] = 0
 	tosend['response'] = resp
@@ -164,10 +164,10 @@ def update_profile():
 		return wrongTypes()
 	resp = {}
 	#conn = mysql.connect()
-	cursor = conn.cursor()
+	cursor = mysql.connection.cursor()
 	id = getUserByEmail(email, cursor)
 	if id is None:
-		cursor.close()
+		#cursor.close()
 		#conn.close()
 		return dontExist('user')
 	
@@ -176,30 +176,31 @@ def update_profile():
 			 "WHERE id = ")
 	query += str(id)
 	query += ';'			
-	cursor.execute(query, (name, about))
-	conn.commit()
+	cursor.execute(query, [name, about])
+	mysql.connection.commit()
 	
 	getUserResp(resp, cursor, id = id)
-	cursor.close()
+	#cursor.close()
 	#conn.close()
 	return OK(resp)
 
 
 @app.route('/db/api/clear/', methods = ['POST'])	
 def clear():
-	if app.config['MYSQL_DATABASE_DB'] == 'forumdb0':
+	if app.config['MYSQL_DB'] == 'forumdb0':
 		shutdown_server()
 		return "NO"
 	#conn = mysql.connect()
-	cursor = conn.cursor()
+	cursor = mysql.connection.cursor()
+	cursor.execute("DELETE FROM forum_authors;")
 	cursor.execute("DELETE FROM subscription;")
 	cursor.execute("DELETE FROM following;")
 	cursor.execute("DELETE FROM post;")
 	cursor.execute("DELETE FROM thread;")
 	cursor.execute("DELETE FROM forum;")
 	cursor.execute("DELETE FROM user;")
-	conn.commit()
-	cursor.close()
+	mysql.connection.commit()
+	#cursor.close()
 	#conn.close()
 	tosend = {}
 	tosend['code'] = 0
@@ -216,12 +217,12 @@ def shutdown_server():
 def status():
 	resp = {}
 	#conn = mysql.connect()
-	cursor = conn.cursor()
+	cursor = mysql.connection.cursor()
 	getStatus(resp, cursor, 'user')
 	getStatus(resp, cursor, 'forum')
 	getStatus(resp, cursor, 'thread')
 	getStatus(resp, cursor, 'post')
-	cursor.close()
+	#cursor.close()
 	#conn.close()
 	return OK(resp)
 

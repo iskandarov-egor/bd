@@ -52,7 +52,7 @@ def treeSort(cursor, resp, thread_id, sort, since, order, limit):
 			+ extra + ';')
 
 
-	cursor.execute(query, (thread_id, '%'))
+	cursor.execute(query, [thread_id, '%'])
 	alldata = cursor.fetchall()
 	for data in alldata:
 		subresp = {}
@@ -61,7 +61,7 @@ def treeSort(cursor, resp, thread_id, sort, since, order, limit):
 
 def getThreadRespById(resp, cursor, id, related = []):
 	query = "SELECT " + thread_fields +" FROM thread WHERE id = %s;"
-	cursor.execute(query, id)
+	cursor.execute(query, [id])
 	data = cursor.fetchone()
 	if data is None:
 		return False
@@ -230,7 +230,7 @@ def getPathPiece(id):
 
 def getParentMatpath(cursor, id):
 	query = 'SELECT matpath FROM post WHERE id = %s'
-	cursor.execute(query, id)
+	cursor.execute(query, [id])
 	return cursor.fetchone()[0]
 
 
@@ -258,7 +258,7 @@ def parseArrOfArrs(arr, whereto):
 
 def getForumByThread(cursor, id):
 	query = ("SELECT forum_id FROM thread WHERE id = %s;")
-	cursor.execute(query, (id))
+	cursor.execute(query, [id])
 	forum = cursor.fetchone()
 	if forum is None:
 		return None
@@ -266,7 +266,7 @@ def getForumByThread(cursor, id):
 
 def getForumIdByShortname(cursor, shortname):
 	query = ("SELECT id FROM forum WHERE short_name = %s;")
-	cursor.execute(query, shortname)
+	cursor.execute(query, [shortname])
 	forum = cursor.fetchone()
 	if forum is None:
 		return None
@@ -275,7 +275,7 @@ def getForumIdByShortname(cursor, shortname):
 
 def getForumIdByName(cursor, name):
 	query = ("SELECT id FROM forum WHERE name = %s;")
-	cursor.execute(query, name)
+	cursor.execute(query, [name])
 	forum = cursor.fetchone()
 	if forum is None:
 		return None
@@ -291,7 +291,7 @@ def getForumResp(resp, cursor, id=None, short_name=None, name=None, related = []
 	if id is None:
 		return None	
 	query = ("SELECT short_name, name, founder_id FROM forum WHERE id = %s;")
-	cursor.execute(query, id)
+	cursor.execute(query, [id])
 	data = cursor.fetchone()
 
 	resp['short_name'] = data[0]
@@ -308,12 +308,12 @@ def getForumResp(resp, cursor, id=None, short_name=None, name=None, related = []
 
 def getForumShortnameById(cursor, id):
 	query = ("SELECT short_name FROM forum WHERE id = %s;")
-	cursor.execute(query, (id))
+	cursor.execute(query, [id])
 	return cursor.fetchone()[0]
 	
 def getUserByEmail(email, cursor):
 	query = ("SELECT id FROM user WHERE email = %s;")
-	cursor.execute(query, (email))
+	cursor.execute(query, [email])
 	user = cursor.fetchone()
 	if user is not None:
 		return user[0]
@@ -338,10 +338,10 @@ def parseUserData(cursor, resp, data):
 def getUserResp(resp, cursor, email = None, id = None):
 	if(id is None):
 		query = "SELECT " + user_fields + " FROM user WHERE email = %s;"
-		cursor.execute(query, email)	
+		cursor.execute(query, [email])
 	else:
 		query = "SELECT " + user_fields + " FROM user WHERE id = %s;"
-		cursor.execute(query, id)
+		cursor.execute(query, [id])
 	data = cursor.fetchone()
 	if data is None:
 		return False
@@ -352,7 +352,7 @@ def getUserResp(resp, cursor, email = None, id = None):
 #id must exist
 def getUserEmailById(cursor, id):
 	query = ("SELECT email FROM user WHERE id = %s;")
-	cursor.execute(query, (id))
+	cursor.execute(query, [id])
 	email = cursor.fetchone()[0]
 	
 	return email
@@ -365,7 +365,7 @@ def getFollowers(cursor, id, resp, extra = ''):
 			"WHERE f.followee_id = %s ") + extra + ';'
 	
 			
-	cursor.execute(query, id)		
+	cursor.execute(query, [id])		
 	followers = cursor.fetchall()
 	resp['followers'] = []
 	parseArrOfArrs(followers, resp['followers'])
@@ -376,7 +376,7 @@ def getFollowees(cursor, id, resp, extra = ''):
 			"ON f.followee_id = u.id "
 			"WHERE f.follower_id = %s ") + extra + ';'
 	
-	cursor.execute(query, id)		
+	cursor.execute(query, [id])		
 	following = cursor.fetchall()
 	resp['following'] = []
 	parseArrOfArrs(following, resp['following'])
@@ -393,7 +393,7 @@ def getFollowersResp(cursor, id, resp, wees=False, extra = ''):
 		" ON f.follower_id = user.id"
 		" WHERE f.followee_id = %s " + extra + ';')
 			
-	cursor.execute(query, id)		
+	cursor.execute(query, [id])		
 	alldata = cursor.fetchall()
 	
 	for data in alldata:
@@ -469,7 +469,7 @@ def parsePostData2(resp, cursor, data):
 def getPostRespById(resp, cursor, id, related = []):
 	query = "SELECT " + postParams + " FROM post WHERE id = %s;"
 
-	cursor.execute(query, (id))
+	cursor.execute(query, [id])
 	
 	data = cursor.fetchone()
 	if data is None:
@@ -479,7 +479,7 @@ def getPostRespById(resp, cursor, id, related = []):
 	return True
 
 def getThreadIdById(cursor, id):
-	cursor.execute('SELECT id FROM thread WHERE id=%s;', id)
+	cursor.execute('SELECT id FROM thread WHERE id=%s;', [id])
 	id = cursor.fetchone()
 
 	if id is None:
@@ -505,7 +505,7 @@ def getPostsResp(resp, cursor, forum_short=None, thread_id=None, user_email=None
 			return False
 		query += "author_id=%s "
 	query += extra + ';'
-	cursor.execute(query, param)
+	cursor.execute(query, [param])
 	alldata = cursor.fetchall()
 	for data in alldata:
 		subresp = {}

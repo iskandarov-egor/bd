@@ -1,4 +1,4 @@
-from app import app, mysql, conn
+from app import app, mysql
 from flask import request, jsonify
 import MySQLdb
 from shortcuts import *
@@ -22,19 +22,19 @@ def vote_post():
 		return badJson('vote must be 1 or -1')
 	
 	##conn = mysql.connect()
-	cursor = conn.cursor()
-	cursor.execute("SELECT id FROM post WHERE id = %s;", id)
+	cursor = mysql.connection.cursor()
+	cursor.execute("SELECT id FROM post WHERE id = %s;", [id])
 	if cursor.fetchone() is None:
-		cursor.close()
+		#cursor.close()
 		##conn.close()
 		return dontExist('post')
 	
-	cursor.execute(query, (id))
-	conn.commit()
+	cursor.execute(query, [id])
+	mysql.connection.commit()
 	resp = {}
 	
 	getPostRespById(resp, cursor, id)
-	cursor.close()
+	#cursor.close()
 	#conn.close()
 	return OK(resp)
 
@@ -51,21 +51,21 @@ def update_post():
 
 	resp = {}
 	#conn = mysql.connect()
-	cursor = conn.cursor()
-	cursor.execute("SELECT id FROM post WHERE id = %s;", id)
+	cursor = mysql.connection.cursor()
+	cursor.execute("SELECT id FROM post WHERE id = %s;", [id])
 	if cursor.fetchone() is None:
-		cursor.close()
+		#cursor.close()
 		#conn.close()
 		return dontExist('post')
 	
 	query = "UPDATE post SET message = %s WHERE id = %s"
 		
-	cursor.execute(query, (message, id))
-	conn.commit()
+	cursor.execute(query, [message, id])
+	mysql.connection.commit()
 	resp = {}
 	
 	getPostRespById(resp, cursor, id)
-	cursor.close()
+	#cursor.close()
 	#conn.close()
 	return OK(resp)
 
@@ -87,12 +87,12 @@ def restmove_post():
 	else:	
 		query = "UPDATE post SET isDeleted = FALSE WHERE id = %s"
 	#conn = mysql.connect()
-	cursor = conn.cursor()	
-	cursor.execute(query, (id))
-	conn.commit()
+	cursor = mysql.connection.cursor()	
+	cursor.execute(query, [id])
+	mysql.connection.commit()
 	resp = {}
 	resp['post'] = id
-	cursor.close()
+	#cursor.close()
 	#conn.close()
 	return OK(resp)	
 
@@ -139,9 +139,9 @@ def list_posts():
 		return badExtra()
 	resp = []
 	#conn = mysql.connect()
-	cursor = conn.cursor()
+	cursor = mysql.connection.cursor()
 	if getPostsResp(resp, cursor, forum_short, thread_id, user_email, extra, related) == False:
-		cursor.close()
+		#cursor.close()
 		#conn.close()
 		if fromforum:
 			return dontExist('forum')
@@ -149,7 +149,7 @@ def list_posts():
 			return dontExist('user')
 		else:
 			return dontExist('thread')
-	cursor.close()
+	#cursor.close()
 	#conn.close()
 	return OK(resp)
 
@@ -180,25 +180,25 @@ def create_post():
 		return badTypes()
 	
 	#conn = mysql.connect()
-	cursor = conn.cursor()
+	cursor = mysql.connection.cursor()
 	forum_id = getForumIdByShortname(cursor, forum_short)
 	if forum_id is None:
-		cursor.close()
+		#cursor.close()
 		#conn.close()
 		return dontExist('forum')
 	thread_forum = getForumByThread(cursor, thread_id)
 	if thread_forum is None:
-		cursor.close()
+		#cursor.close()
 		#conn.close()
 		return dontExist('thread')
 	if thread_forum != forum_id:
-		cursor.close()
+		#cursor.close()
 		#conn.close()
 		return badJson('thread is not in specified forum')
 		
 	author_id = getUserByEmail(user_email, cursor)
 	if author_id is None:
-		cursor.close()
+		#cursor.close()
 		#conn.close()
 		return dontExist('user')
 	
@@ -211,14 +211,14 @@ def create_post():
 	query = ("INSERT INTO post (forum_id, message, author_id"
 			", isApproved, isHighlighted, isDeleted, isEdited, isSpam"
 			", date, thread_id, isRoot) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);")
-	cursor.execute(query, (forum_id, message, author_id, \
-		isApproved, isHighlighted, isDeleted, isEdited, isSpam , date, thread_id, isroot))
-	conn.commit()
+	cursor.execute(query, [forum_id, message, author_id, \
+		isApproved, isHighlighted, isDeleted, isEdited, isSpam , date, thread_id, isroot])
+	mysql.connection.commit()
 	row = cursor.lastrowid
 	
 	cursor.execute("UPDATE post SET matpath='"+path+getPathPiece(row)+"' WHERE id="+str(row)+';')
-	conn.commit()
-	cursor.close()
+	mysql.connection.commit()
+	#cursor.close()
 	#conn.close()
 	resp = {}
 	resp['date'] = date
@@ -244,12 +244,12 @@ def post_details():
 	related = request.args.getlist('related')
 	resp = {}
 	#conn = mysql.connect()
-	cursor = conn.cursor()
+	cursor = mysql.connection.cursor()
 	if getPostRespById(resp, cursor, id, related) == False:
-		cursor.close()
+		#cursor.close()
 		#conn.close()
 		return dontExist('post')
-	cursor.close()
+	#cursor.close()
 	#conn.close()	
 	return OK(resp)
 

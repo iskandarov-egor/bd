@@ -1,4 +1,4 @@
-from app import app, mysql, conn
+from app import app, mysql
 from flask import request, jsonify
 import MySQLdb
 from shortcuts import *
@@ -20,10 +20,10 @@ def list_users():
 	
 	resp = []
 	#conn = mysql.connect()
-	cursor = conn.cursor()
+	cursor = mysql.connection.cursor()
 	forum_id = getForumIdByShortname(cursor, short)
 	if forum_id is None:
-		cursor.close()
+		#cursor.close()
 		#conn.close()
 		return dontExist('forum')
 	
@@ -38,7 +38,7 @@ def list_users():
 		parseUserData(cursor, subresp, data)
 		resp.append(subresp)
 		
-	cursor.close()
+	#cursor.close()
 	#conn.close()
 	return OK(resp)
 
@@ -57,12 +57,12 @@ def list_usersOld():
 		return badExtra()
 	resp = []
 	#conn = mysql.connect()
-	cursor = conn.cursor()
+	cursor = mysql.connection.cursor()
 	if getUsersResp(resp, cursor, extra, short) == False:
-		cursor.close()
+		#cursor.close()
 		#conn.close()
 		return didntFind('forum')
-	cursor.close()
+	#cursor.close()
 	#conn.close()
 	return OK(resp)
 
@@ -79,12 +79,12 @@ def get_forum_details():
 	
 	resp = {}
 	#conn = mysql.connect()
-	cursor = conn.cursor()
+	cursor = mysql.connection.cursor()
 	if False == getForumResp(resp, cursor, short_name=shortname, related=related):
-		cursor.close()
+		#cursor.close()
 		#conn.close()
 		return dontExist('forum')
-	cursor.close()
+	#cursor.close()
 	#conn.close()
 	return OK(resp)
 
@@ -100,18 +100,18 @@ def create_forum():
 	except:
 		return didntFind('short name, name and user')
 	#conn = mysql.connect()
-	cursor = conn.cursor()	
+	cursor = mysql.connection.cursor()	
 	id = getUserByEmail(email, cursor)
 	if id is None:
-		cursor.close()
+		#cursor.close()
 		#conn.close()
 		return dontExist('user')
 	resp = {}	
 	try:
 		query = ("INSERT INTO forum (name, short_name, founder_id)"
 		"VALUES(%s, %s, %s);")
-		cursor.execute(query, (name, shortname, id))
-		conn.commit()
+		cursor.execute(query, [name, shortname, id])
+		mysql.connection.commit()
 		resp['id'] = cursor.lastrowid
 		resp['short_name'] = shortname
 		resp['name'] = name
@@ -122,6 +122,6 @@ def create_forum():
 			getForumResp(resp, cursor, name=name)
 		else:
 			getForumResp(resp, cursor, id=id)
-	cursor.close()
+	#cursor.close()
 	#conn.close()
 	return OK(resp)

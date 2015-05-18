@@ -1,4 +1,4 @@
-from app import app, mysql, conn
+from app import app, mysql
 from flask import request, jsonify
 import MySQLdb
 from shortcuts import *
@@ -23,20 +23,20 @@ def thread_list_posts():
 		if extra == False:
 			return badExtra()
 		#conn = mysql.connect()
-		cursor = conn.cursor()	
+		cursor = mysql.connection.cursor()	
 		if False == getPostsResp(resp, cursor, thread_id=thread_id, extra=extra):
-			cursor.close()
+			#cursor.close()
 			#conn.close()
 			return dontExist('thread')
 	else:
 		#conn = mysql.connect()
-		cursor = conn.cursor()
+		cursor = mysql.connection.cursor()
 		if False == treeSort(cursor, resp, thread_id, sort, since, order, limit):
-			cursor.close()
+			#cursor.close()
 			#conn.close()
 			return badExtra()
 
-	cursor.close()
+	#cursor.close()
 	#conn.close()
 	return OK(resp)
 
@@ -55,13 +55,13 @@ def thread_vote():
 	else:
 		query = "UPDATE thread SET dislikes = dislikes + 1 WHERE id = %s;"	
 	#conn = mysql.connect()
-	cursor = conn.cursor()
-	cursor.execute(query, (thread_id))
-	conn.commit()
+	cursor = mysql.connection.cursor()
+	cursor.execute(query, [thread_id])
+	mysql.connection.commit()
 
 	resp = {}
 	getThreadRespById(resp, cursor, thread_id)
-	cursor.close()
+	#cursor.close()
 	#conn.close()
 	return OK(resp)
 
@@ -78,16 +78,16 @@ def thread_update2():
 		didntFind('thread message, slug and id')
 	query = "UPDATE thread SET slug = %s, message = %s WHERE id = %s;"			
 	#conn = mysql.connect()
-	cursor = conn.cursor()
-	cursor.execute(query, (slug, message, thread_id))
-	conn.commit()
+	cursor = mysql.connection.cursor()
+	cursor.execute(query, [slug, message, thread_id])
+	mysql.connection.commit()
 	
 	resp = {}
 	if False == getThreadRespById(resp, cursor, thread_id):
-		cursor.close()
+		#cursor.close()
 		#conn.close()
 		return dontExist('thread')
-	cursor.close()
+	#cursor.close()
 	#conn.close()
 	return OK(resp)
 
@@ -100,14 +100,14 @@ def subscribe():
 	except:
 		didntFind('thread id and user email')
 	#conn = mysql.connect()
-	cursor = conn.cursor()
+	cursor = mysql.connection.cursor()
 	if getThreadIdById(cursor, thread_id) is None:
-		cursor.close()
+		#cursor.close()
 		#conn.close()
 		return dontExist('thread')
 	user_id = getUserByEmail(email, cursor)
 	if user_id is None:
-		cursor.close()
+		#cursor.close()
 		#conn.close()
 		return dontExist('user')
 		
@@ -118,11 +118,11 @@ def subscribe():
 		else:
 			query = "DELETE FROM subscription WHERE user_id = %s AND thread_id = %s;"		
 		
-		cursor.execute(query, (user_id, thread_id))
-		conn.commit()
+		cursor.execute(query, [user_id, thread_id])
+		mysql.connection.commit()
 	except:
 		pass
-	cursor.close()
+	#cursor.close()
 	#conn.close()
 	resp={}
 	resp['user'] = email
@@ -138,9 +138,9 @@ def clopen_thread():
 		return didntFind('thread')
 	id = request.json['thread']
 	#conn = mysql.connect()
-	cursor = conn.cursor()
+	cursor = mysql.connection.cursor()
 	if getThreadIdById(cursor, id) is None:
-		cursor.close()
+		#cursor.close()
 		#conn.close()
 		return dontExist('thread')
 	
@@ -151,17 +151,17 @@ def clopen_thread():
 	elif request.url_rule.rule == '/db/api/thread/remove/':
 		toset = "isDeleted = TRUE"
 		query = "UPDATE post SET isDeleted = TRUE WHERE thread_id = %s;"
-		cursor.execute(query, id)
-		conn.commit()
+		cursor.execute(query, [id])
+		mysql.connection.commit()
 	else:
 		toset = "isDeleted = FALSE"
 		query = "UPDATE post SET isDeleted = FALSE WHERE thread_id = %s;"
-		cursor.execute(query, id)
-		conn.commit()
+		cursor.execute(query, [id])
+		mysql.connection.commit()
 	query = "UPDATE thread SET "+toset+" WHERE id = %s;"
-	cursor.execute(query, id)
-	conn.commit()
-	cursor.close()
+	cursor.execute(query, [id])
+	mysql.connection.commit()
+	#cursor.close()
 	#conn.close()
 	resp = {}
 	resp['thread'] = id
@@ -198,12 +198,12 @@ def list_threads():
 		return badExtra()
 	resp = []
 	#conn = mysql.connect()
-	cursor = conn.cursor()
+	cursor = mysql.connection.cursor()
 	if getThreadsResp(resp, cursor, extra, forum_short, user_email, related) == False:
-		cursor.close()
+		#cursor.close()
 		#conn.close()
 		return didntFind('forum or user')
-	cursor.close()
+	#cursor.close()
 	#conn.close()
 	return OK(resp)
 
@@ -230,15 +230,15 @@ def create_thread():
 		isDeleted = False	
 	
 	#conn = mysql.connect()
-	cursor = conn.cursor()
+	cursor = mysql.connection.cursor()
 	founder_id = getUserByEmail(founder_email, cursor)
 	if founder_id is None:
-		cursor.close()
+		#cursor.close()
 		#conn.close()
 		return dontExist('user')
 	forum_id = getForumIdByShortname(cursor, forum_short)
 	if forum_id is None:
-		cursor.close()
+		#cursor.close()
 		#conn.close()
 		return dontExist('forum')
 	
@@ -246,10 +246,10 @@ def create_thread():
 			"message, forum_id, date, isClosed, isDeleted) "
 			"VALUES(%s, %s, %s, %s, %s, %s, %s, %s);")
 	
-	cursor.execute(query, (title, slug, founder_id, message \
-	, forum_id, date, isClosed, isDeleted))
-	conn.commit()
-	cursor.close()
+	cursor.execute(query, [title, slug, founder_id, message \
+	, forum_id, date, isClosed, isDeleted])
+	mysql.connection.commit()
+	#cursor.close()
 	#conn.close()
 	resp = {}
 	resp['id'] = cursor.lastrowid
@@ -277,12 +277,12 @@ def get_thread_details():
 	
 	resp = {}
 	#conn = mysql.connect()
-	cursor = conn.cursor()
+	cursor = mysql.connection.cursor()
 	if getThreadRespById(resp, cursor, thread_id, related) == False:
-		cursor.close()
+		#cursor.close()
 		#conn.close()
 		return dontExist('thread')
-	cursor.close()
+	#cursor.close()
 	#conn.close()
 	return OK(resp)
 
