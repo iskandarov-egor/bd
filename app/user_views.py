@@ -194,7 +194,7 @@ def clear():
 	cursor = mysql.connection.cursor()
 	cursor.execute("DELETE FROM forum_authors;")
 	cursor.execute("DELETE FROM subscription;")
-	cursor.execute("DELETE FROM following;")
+	cursor.execute("DELETE FROM fol;")
 	cursor.execute("DELETE FROM post;")
 	cursor.execute("DELETE FROM thread;")
 	cursor.execute("DELETE FROM forum;")
