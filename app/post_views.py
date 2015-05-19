@@ -120,8 +120,6 @@ def list_posts():
 		thread_id = request.args.get('thread')
 		if thread_id is None:
 			return didntFind('forum shortname or post id')
-		
-		
 	else:
 		thread_id = None
 	
@@ -144,10 +142,6 @@ def list_posts():
 	else:
 		forum_id = None
 		forum = None
-			
-	
-	
-		
 	
 	since = request.args.get('since')
 	limit = request.args.get('limit')
