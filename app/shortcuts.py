@@ -167,10 +167,11 @@ def sinceOrderLimit(since, order, limit, orderby='date', sinceWhat='date'):
 		extra = ' AND '+sinceWhat+' >= ' + mystr(since) + ' '
 	else:
 		extra = ' '
-	orderextra = getOrderExtra(order, orderby)
-	if orderextra == False:
-		return False
-	extra += orderextra
+	if order is not None:
+		orderextra = getOrderExtra(order, orderby)
+		if orderextra == False:
+			return False
+		extra += orderextra
 	
 	if limit is not None:
 		try:
