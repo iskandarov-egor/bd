@@ -5,6 +5,30 @@ import MySQLdb
 
 from shortcuts import *
 	
+@app.route('/db/api/user/listPostsQW/', methods = ['GET'])
+def list_postsQW():
+	user_email = request.args.get('user')
+	if user_email is None:
+		return didntFind('user email')
+	
+	since = request.args.get('since')
+	limit = request.args.get('limit')
+	order = request.args.get('order')
+	
+	extra = sinceOrderLimit(since, order, limit)
+	if extra == False:
+		return badExtra()
+	resp = []
+	#conn = mysql.connect()
+	cursor = mysql.connection.cursor()
+	
+	query = "SELECT "+post_fields+" FROM post WHERE matpath=%s "+extra+";";
+	cursor.execute(query, [user_email])
+	
+	#cursor.close()
+	#conn.close()
+	return OK(resp)
+	
 @app.route('/db/api/user/create/', methods = ['POST'])	
 def create_user():
 	try:
@@ -187,14 +211,14 @@ def update_profile():
 
 @app.route('/db/api/clear/', methods = ['POST'])	
 def clear():
-	if app.config['MYSQL_DB'] == 'forumdb0':
+	if app.config['MYSQL_DB'] == 'forumdb0' or app.config['MYSQL_DB'] == 'forumdb3' or app.config['MYSQL_DB'] == 'forumdb2':
 		shutdown_server()
 		return "NO"
 	#conn = mysql.connect()
 	cursor = mysql.connection.cursor()
 	cursor.execute("DELETE FROM forum_authors;")
 	cursor.execute("DELETE FROM subscription;")
-	cursor.execute("DELETE FROM fol;")
+	cursor.execute("DELETE FROM following;")
 	cursor.execute("DELETE FROM post;")
 	cursor.execute("DELETE FROM thread;")
 	cursor.execute("DELETE FROM forum;")

@@ -120,15 +120,34 @@ def list_posts():
 		thread_id = request.args.get('thread')
 		if thread_id is None:
 			return didntFind('forum shortname or post id')
+		
+		
 	else:
 		thread_id = None
-		
+	
 	if fromforum:
 		related = request.args.getlist('related')
 		if False == checkRelated(related, ('thread', 'forum', 'user')):
-			return badJson('related argument is incorrect')
+			return badJson('related argument is incorrect')		
 	else:
 		related = []
+	
+	cursor = mysql.connection.cursor()	
+	
+	if forum_short is not None:
+		forum_id = getForumIdByShortname(cursor, forum_short)		
+		if 'forum' in related:
+			forum = {}
+			getForumResp(forum, cursor, forum_id)
+		else:
+			forum = forum_short	
+	else:
+		forum_id = None
+		forum = None
+			
+	
+	
+		
 	
 	since = request.args.get('since')
 	limit = request.args.get('limit')
@@ -139,8 +158,8 @@ def list_posts():
 		return badExtra()
 	resp = []
 	#conn = mysql.connect()
-	cursor = mysql.connection.cursor()
-	if getPostsResp(resp, cursor, forum_short, thread_id, user_email, extra, related) == False:
+	
+	if getPostsResp(resp, cursor, forum_id, thread_id, user_email, extra, related, forum) == False:
 		#cursor.close()
 		#conn.close()
 		if fromforum:
@@ -149,6 +168,11 @@ def list_posts():
 			return dontExist('user')
 		else:
 			return dontExist('thread')
+	
+	
+	
+		
+
 	#cursor.close()
 	#conn.close()
 	return OK(resp)

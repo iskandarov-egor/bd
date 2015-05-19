@@ -180,14 +180,30 @@ def list_threads():
 			return didntFind('forum shortname')
 		if user_email is None:
 			return didntFind('forum shortname or user email')
+			
 	else:
 		if user_email is not None:
 			return badJson('both user and forum arguments found')
-		
+			
+			
+	cursor = mysql.connection.cursor()	
 	if fromforum:
 		related = request.args.getlist('related')
+		
 	else:
 		related = []	
+		
+	if forum_short is not None:
+		forum_id = getForumIdByShortname(cursor, forum_short)		
+		if 'forum' in related:
+			forum = {}
+			getForumResp(forum, cursor, forum_id)
+		else:
+			forum = forum_short	
+	else:
+		forum_id = None
+		forum = None
+		
 	
 	since = request.args.get('since')
 	limit = request.args.get('limit')
@@ -198,11 +214,14 @@ def list_threads():
 		return badExtra()
 	resp = []
 	#conn = mysql.connect()
-	cursor = mysql.connection.cursor()
-	if getThreadsResp(resp, cursor, extra, forum_short, user_email, related) == False:
+	
+	if getThreadsResp(resp, cursor, extra, forum_id, user_email, related, forum) == False:
 		#cursor.close()
 		#conn.close()
+		
 		return didntFind('forum or user')
+	
+		
 	#cursor.close()
 	#conn.close()
 	return OK(resp)
