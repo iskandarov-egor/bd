@@ -30,8 +30,8 @@ def list_users():
 	#query = ("select "+user_fields+" FROM user INNER JOIN forum_authors"
 	#" ON user.id = forum_authors.author_id"
 	#" where forum_authors.forum_id="+str(forum_id)+extra+";");
-	query = ("select sql_no_cache user.* FROM user INNER JOIN
-	" (select * from forum_authors where forum_authors.forum_id=6 "
+	query = ("select sql_no_cache user.* FROM user INNER JOIN"
+	" (select * from forum_authors where forum_authors.forum_id="+str(forum_id)
 	+ extra +") as a ON a.author_id = user.id")
 	cursor.execute(query)
 	alldata = cursor.fetchall()
