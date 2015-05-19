@@ -32,7 +32,7 @@ def list_users():
 	#" where forum_authors.forum_id="+str(forum_id)+extra+";");
 	query = ("select "+user_fields+" FROM user INNER JOIN"
 	" (select * from forum_authors where forum_authors.forum_id="+str(forum_id)
-	+ extra +") as a ON a.author_id = user.id "+getOrderExtra(order, "forum_authors.author_id"))
+	+ extra +") as a ON a.author_id = user.id "+getOrderExtra(order, "a.author_id"))
 	
 	cursor.execute(query)
 	alldata = cursor.fetchall()
