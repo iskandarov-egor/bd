@@ -44,6 +44,7 @@ def list_users():
 		
 	#cursor.close()
 	#conn.close()
+	return OK('')
 	return OK(resp)
 
 @app.route('/db/api/forum/listUsersOld/', methods = ['GET'])
