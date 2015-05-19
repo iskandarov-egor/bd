@@ -370,7 +370,7 @@ def getFollowers(cursor, id, resp, extra = ''):
 			"ON f.follower_id = u.id "
 			"WHERE f.followee_id = %s ") + extra + ';'
 	
-			
+	query = "SELECT follower_id from following f where f.followee_id=%s;"		
 	cursor.execute(query, [id])		
 	followers = cursor.fetchall()
 	resp['followers'] = []
@@ -386,13 +386,13 @@ def getFollowersQW(cursor, id, resp, extra = ''):
 	resp['followers'] = []
 	parseArrOfArrs(followers, resp['followers'])
 
-def getFollowees(cursor, email, resp, extra = ''):
+def getFollowees(cursor, id, resp, extra = ''):
 	query = ("SELECT email FROM user u "
 			"INNER JOIN following f "
 			"ON f.followee_id = u.id "
 			"WHERE f.follower_id = %s ") + extra + ';'
-	
-	cursor.execute(query, [email])		
+	query = "SELECT followee_id from following f where f.follower_id=%s;"		
+	cursor.execute(query, [id])		
 	following = cursor.fetchall()
 	resp['following'] = []
 	parseArrOfArrs(following, resp['following'])

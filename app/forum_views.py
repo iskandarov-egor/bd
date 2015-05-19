@@ -39,7 +39,7 @@ def list_users():
 	
 	for data in alldata:
 		subresp = {}
-		#parseUserData(cursor, subresp, data)
+		parseUserData(cursor, subresp, data)
 		resp.append(subresp)
 		
 	#cursor.close()
