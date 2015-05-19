@@ -329,9 +329,9 @@ def getUserByEmail(email, cursor):
 user_fields = 'about, email, user.id, isAnonymous, user.name, username'
 
 def parseUserData(cursor, resp, data):
-	resp['about'] = data[0]
+	#resp['about'] = data[0]
 	resp['email'] = data[1]
-	resp['about'] = data[0]
+	#resp['about'] = data[0]
 	resp['id'] = data[2]
 	resp['isAnonymous'] = data[3]
 	resp['name'] = data[4]
