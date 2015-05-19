@@ -335,10 +335,10 @@ def parseUserData(cursor, resp, data):
 	resp['id'] = data[2]
 	resp['isAnonymous'] = data[3]
 	resp['name'] = data[4]
-	#resp['subscriptions'] = getSubscriptions(cursor, data[2])
+	resp['subscriptions'] = getSubscriptions(cursor, data[2])
 	resp['username'] = data[5]
-	getFollowers(cursor, data[2], resp)
-	getFollowees(cursor, data[2], resp)
+	#getFollowers(cursor, data[2], resp)
+	#getFollowees(cursor, data[2], resp)
 
 #returns user id
 def getUserResp(resp, cursor, email = None, id = None):
