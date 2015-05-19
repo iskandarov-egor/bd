@@ -464,9 +464,9 @@ def getUsersResp(resp, cursor,  extra, forum_short):
 
 #id must exist
 def getSubscriptions(cursor, id):
-	cursor.execute('SELECT thread_id FROM subscription WHERE user_id = ' + str(id) + ';')
+	#cursor.execute('SELECT thread_id FROM subscription WHERE user_id = ' + str(id) + ';')
 	subs = []
-	parseArrOfArrs(cursor.fetchall(), subs)
+	#parseArrOfArrs(cursor.fetchall(), subs)
 	return subs
 	
 
