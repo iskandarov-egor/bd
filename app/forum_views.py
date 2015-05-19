@@ -33,6 +33,9 @@ def list_users():
 	query = ("select user.* FROM user INNER JOIN"
 	" (select * from forum_authors where forum_authors.forum_id="+str(forum_id)
 	+ extra +") as a ON a.author_id = user.id")
+	print extra
+	print 'zz'
+	print str(forum_id)
 	cursor.execute(query)
 	alldata = cursor.fetchall()
 	
