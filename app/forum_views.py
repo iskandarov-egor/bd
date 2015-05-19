@@ -13,7 +13,7 @@ def list_users():
 	since = request.args.get('since_id')	
 	order = request.args.get('order')
 	limit = request.args.get('limit')
-	extra = sinceOrderLimit(since, order, limit, orderby='forum_authors.author_id', sinceWhat='forum_authors.author_id')	
+	extra = sinceOrderLimit(since, None, limit, orderby='', sinceWhat='forum_authors.author_id')	
 	if extra == False:
 		return badExtra()
 	
@@ -30,12 +30,10 @@ def list_users():
 	#query = ("select "+user_fields+" FROM user INNER JOIN forum_authors"
 	#" ON user.id = forum_authors.author_id"
 	#" where forum_authors.forum_id="+str(forum_id)+extra+";");
-	query = ("select user.* FROM user INNER JOIN"
+	query = ("select "+user_fields+" FROM user INNER JOIN"
 	" (select * from forum_authors where forum_authors.forum_id="+str(forum_id)
-	+ extra +") as a ON a.author_id = user.id")
-	print extra
-	print 'zz'
-	print str(forum_id)
+	+ extra +") as a ON a.author_id = user.id "+getOrderExtra(order, "forum_authors.author_id");
+	
 	cursor.execute(query)
 	alldata = cursor.fetchall()
 	
