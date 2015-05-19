@@ -13,7 +13,7 @@ def list_users():
 	since = request.args.get('since_id')	
 	order = request.args.get('order')
 	limit = request.args.get('limit')
-	extra = sinceOrderLimit(since, None, limit, orderby='', sinceWhat='forum_authors.author_id')	
+	extra = sinceOrderLimit(since, order, limit, orderby='user.name', sinceWhat='forum_authors.author_id')	
 	if extra == False:
 		return badExtra()
 	
