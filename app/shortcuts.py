@@ -326,20 +326,29 @@ def getUserByEmail(email, cursor):
 		return None	
 
 
-user_fields = 'about, email, user.id, isAnonymous, user.name, username'
+user_fields = 'about, email, user.id, isAnonymous, user.name, username, hasFollowers, hasFollowees, hasSubscriptions'
 
 def parseUserData(cursor, resp, data):
-	#resp['about'] = data[0]
 	resp['email'] = data[1]
 	resp['about'] = data[0]
 	resp['id'] = data[2]
 	resp['isAnonymous'] = data[3]
 	resp['name'] = data[4]
-	resp['subscriptions'] = getSubscriptions(cursor, data[2])
+	
 	resp['username'] = data[5]
-	getFollowers(cursor, data[2], resp)
-	getFollowees(cursor, data[2], resp)
-
+	if data[6] == 0:
+		resp['followers'] = []
+	else:
+		getFollowers(cursor, data[2], resp)
+	if data[7] == 0:
+		resp['followees'] = []
+	else:
+		getFollowees(cursor, data[2], resp)
+	if data[8] == 0:
+		resp['subscriptions'] = []
+	else:
+		resp['subscriptions'] = getSubscriptions(cursor, data[2])
+	
 #returns user id
 def getUserResp(resp, cursor, email = None, id = None):
 	if(id is None):
@@ -364,47 +373,49 @@ def getUserEmailById(cursor, id):
 	return email
 
 
-def getFollowers(cursor, id, resp, extra = ''):	
-	query = ("SELECT email FROM user u "
+getFollowers_query = ("SELECT email FROM user u "
 			"INNER JOIN following f "
 			"ON f.follower_id = u.id "
-			"WHERE f.followee_id = %s ") + extra + ';'
-	
-			
-	cursor.execute(query, [id])		
+			"WHERE f.followee_id = %s ;")
+def getFollowers(cursor, id, resp):	
+	cursor.execute(getFollowers_query, [id])
 	followers = cursor.fetchall()
-	resp['followers'] = []
-	parseArrOfArrs(followers, resp['followers'])
-	
-def getFollowersQW(cursor, id, resp, extra = ''):	
-	query = ("SELECT follower_email FROM fol "
-			"WHERE followee_id = %s ") + extra + ';'
-	
-			
-	cursor.execute(query, [id])		
-	followers = cursor.fetchall()
+	followers = []
 	resp['followers'] = []
 	parseArrOfArrs(followers, resp['followers'])
 
-def getFollowees(cursor, email, resp, extra = ''):
-	query = ("SELECT email FROM user u "
+getFollowees_query = ("SELECT email FROM user u "
 			"INNER JOIN following f "
 			"ON f.followee_id = u.id "
-			"WHERE f.follower_id = %s ") + extra + ';'
-	
-	cursor.execute(query, [email])		
-	following = cursor.fetchall()
+			"WHERE f.follower_id = %s ;")
+def getFollowees(cursor, id, resp):
+	#cursor.execute(getFollowees_query, [id])		
+	#following = cursor.fetchall()
+	following = []
 	resp['following'] = []
 	parseArrOfArrs(following, resp['following'])
+		
+def getFollowersQW(cursor, id, resp):	
+	query = ("SELECT follower_id FROM following "
+			"WHERE followee_id = %s ;") + extra + ';'
+	
+	cursor.execute(query, [id])		
+	followers = cursor.fetchall()
+	resp['followers'] = []
+	parseArrOfArrs(followers, resp['followers'])
 
-def getFolloweesQW(cursor, id, resp, extra = ''):
-	query = ("SELECT followee_email FROM fol "
+
+def getFolloweesQW(cursor, id, resp):
+	query = ("SELECT followee_id FROM following "
 			"WHERE follower_id = %s ") + extra + ';'
 	
 	cursor.execute(query, [id])		
 	following = cursor.fetchall()
 	resp['following'] = []
 	parseArrOfArrs(following, resp['following'])
+
+
+
 
 def getFollowersResp(cursor, id, resp, wees=False, extra = ''):	
 	if wees:
@@ -464,9 +475,9 @@ def getUsersResp(resp, cursor,  extra, forum_short):
 
 #id must exist
 def getSubscriptions(cursor, id):
-	#cursor.execute('SELECT thread_id FROM subscription WHERE user_id = ' + str(id) + ';')
+	cursor.execute('SELECT thread_id FROM subscription WHERE user_id = ' + str(id) + ';')
 	subs = []
-	#parseArrOfArrs(cursor.fetchall(), subs)
+	parseArrOfArrs(cursor.fetchall(), subs)
 	return subs
 	
 

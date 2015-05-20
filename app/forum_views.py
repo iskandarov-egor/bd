@@ -1,7 +1,10 @@
 from app import app, mysql
 from flask import request, jsonify
-import MySQLdb
 from shortcuts import *
+
+list_users_query = ("select "+user_fields+" FROM user INNER JOIN forum_authors a"
+	" ON user.id = a.author_id"
+	" where a.forum_id=")
 
 @app.route('/db/api/forum/listUsers/', methods = ['GET'])
 def list_users():
@@ -9,7 +12,7 @@ def list_users():
 	short = request.args.get('forum')
 	if short is None:
 		return didntFind('forum short name')
-	#select user.* FROM user where id in (select distinct author_id from post where forum_id=6) order by user.name desc limit 44;
+	
 	since = request.args.get('since_id')	
 	order = request.args.get('order')
 	limit = request.args.get('limit')
@@ -27,9 +30,7 @@ def list_users():
 		#conn.close()
 		return dontExist('forum')
 	
-	query = ("select "+user_fields+" FROM user INNER JOIN forum_authors a"
-	" ON user.id = a.author_id"
-	" where a.forum_id="+str(forum_id)+extra+";")
+	query = (list_users_query+str(forum_id)+extra+";")
 	#query = ("select "+user_fields+" FROM user INNER JOIN"
 	#" (select * from forum_authors where forum_authors.forum_id="+str(forum_id)
 	#+ extra +") as a ON a.author_id = user.id "+getOrderExtra(order, "a.author_id"))
