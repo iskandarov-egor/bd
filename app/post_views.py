@@ -106,11 +106,12 @@ def list_posts():
 		fromuser = (request.url_rule.rule == '/db/api/user/listPosts/')
 	else:
 		fromuser = False	
-
+	known = {}
 	if fromuser:
 		user_email = request.args.get('user')
 		if user_email is None:
 			return didntFind('user email')
+		known['user'] = user_email
 	else:
 		user_email = None
 	forum_short = request.args.get('forum')
@@ -137,8 +138,9 @@ def list_posts():
 		if 'forum' in related:
 			forum = {}
 			getForumResp(forum, cursor, forum_id)
+			known['forum'] = forum
 		else:
-			forum = forum_short	
+			known['forum'] = forum_short	
 	else:
 		forum_id = None
 		forum = None
@@ -153,7 +155,7 @@ def list_posts():
 	resp = []
 	#conn = mysql.connect()
 	
-	if getPostsResp(resp, cursor, forum_id, thread_id, user_email, extra, related, forum) == False:
+	if getPostsResp(resp, cursor, forum_id, thread_id, user_email, extra, related, known) == False:
 		#cursor.close()
 		#conn.close()
 		if fromforum:

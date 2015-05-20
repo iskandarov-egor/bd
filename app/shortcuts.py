@@ -59,14 +59,14 @@ def treeSort(cursor, resp, thread_id, sort, since, order, limit):
 		parsePostData(subresp, cursor, data)
 		resp.append(subresp)
 
-def getThreadRespById(resp, cursor, id, related = [], forum = None):
+def getThreadRespById(resp, cursor, id, related = [], known = {}):
 	query = "SELECT " + thread_fields +" FROM thread WHERE id = %s;"
 	cursor.execute(query, [id])
 	data = cursor.fetchone()
 	if data is None:
 		return False
 	
-	parseThreadData(resp, cursor, data, related, forum)
+	parseThreadData(resp, cursor, data, related=related, known=known)
 	return True
 	
 def getThreadsResp(resp, cursor,  extra, forum_id=None, creator_email=None,  related = [], forum = None):	
@@ -94,7 +94,7 @@ def countPostsInThread(cursor, id):
 	cursor.execute("SELECT posts FROM thread WHERE id = " + str(id) + ";")
 	return cursor.fetchone()[0]
 
-def parseThreadData(resp, cursor, data, related = [], forum = None):
+def parseThreadData(resp, cursor, data, related = [], known = {}):
 	if 'user' in related:
 		uresp = {}
 		getUserResp(uresp, cursor, id = data[2])
@@ -102,7 +102,7 @@ def parseThreadData(resp, cursor, data, related = [], forum = None):
 	else:
 		resp['user'] = getUserEmailById(cursor, data[2])
 	
-	if forum is None:
+	if 'forum' not in known:
 		if 'forum' in related:
 			fresp = {}
 			getForumResp(fresp, cursor, id=data[6])
@@ -110,7 +110,7 @@ def parseThreadData(resp, cursor, data, related = [], forum = None):
 		else:
 			resp['forum'] = getForumShortnameById(cursor, data[6])	
 	else:
-		resp['forum'] = forum
+		resp['forum'] = known['forum']
 	
 	resp['date'] = str(data[7])
 	resp['dislikes'] = data[5]
@@ -481,20 +481,23 @@ def getSubscriptions(cursor, id):
 	return subs
 	
 
-def parsePostData(resp, cursor, data, related = [], forum=None):
-	if 'user' in related:
-		uresp = {}
-		getUserResp(uresp, cursor, id = data[5])
-		resp['user'] = uresp
+def parsePostData(resp, cursor, data, related = [], known = {}):
+	if 'user' in known:
+		resp['user'] = known['user']
 	else:
-		resp['user'] = getUserEmailById(cursor, data[5])
+		if 'user' in related:
+			uresp = {}
+			getUserResp(uresp, cursor, id = data[5])
+			resp['user'] = uresp
+		else:
+			resp['user'] = getUserEmailById(cursor, data[5])
 	if 'thread' in related:
 		tresp = {}
-		getThreadRespById(tresp, cursor, data[12], [], forum)
+		getThreadRespById(tresp, cursor, data[12], related=[], known=known)
 		resp['thread'] = tresp
 	else:
 		resp['thread'] = data[12]
-	if forum is None:
+	if 'forum' not in known:
 		if 'forum' in related:
 			fresp = {}
 			getForumResp(fresp, cursor, id=data[1])
@@ -502,7 +505,7 @@ def parsePostData(resp, cursor, data, related = [], forum=None):
 		else:
 			resp['forum'] = getForumShortnameById(cursor, data[1])
 	else:
-		resp['forum'] = forum
+		resp['forum'] = known['forum']
 	resp['id'] = data[0]	
 	resp['date'] = str(data[11])
 	resp['dislikes'] = data[4]
@@ -546,7 +549,7 @@ def getPostRespById(resp, cursor, id, related = []):
 	parsePostData(resp, cursor, data, related)
 	return True
 	
-def getPostsResp(resp, cursor, forum_id=None, thread_id=None, user_email=None, extra='', related=[], forum = None):
+def getPostsResp(resp, cursor, forum_id=None, thread_id=None, user_email=None, extra='', related=[], known = {}):
 	query = ("SELECT " + postParams + " FROM post WHERE ")
 	if forum_id is not None:
 		param = forum_id #getForumIdByShortname(cursor, forum_short)
@@ -566,9 +569,8 @@ def getPostsResp(resp, cursor, forum_id=None, thread_id=None, user_email=None, e
 	query += extra + ';'
 	cursor.execute(query, [param])
 	alldata = cursor.fetchall()
-	noForum = (forum_id is not None)
 	for data in alldata:
 		subresp = {}
-		parsePostData(subresp, cursor, data, related, forum)
+		parsePostData(subresp, cursor, data, related=related, known=known)
 		resp.append(subresp)
 		
