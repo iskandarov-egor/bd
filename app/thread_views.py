@@ -184,22 +184,22 @@ def list_threads():
 	else:
 		if user_email is not None:
 			return badJson('both user and forum arguments found')
-			
+	
 			
 	cursor = mysql.connection.cursor()	
 	if fromforum:
-		related = request.args.getlist('related')
-		
+		related = request.args.getlist('related')		
 	else:
-		related = []	
-		
+		related = []
+	known = {}
 	if forum_short is not None:
 		forum_id = getForumIdByShortname(cursor, forum_short)		
 		if 'forum' in related:
 			forum = {}
 			getForumResp(forum, cursor, forum_id)
+			known['forum'] = forum
 		else:
-			forum = forum_short	
+			known['forum'] = forum_short	
 	else:
 		forum_id = None
 		forum = None
@@ -215,7 +215,7 @@ def list_threads():
 	resp = []
 	#conn = mysql.connect()
 	
-	if getThreadsResp(resp, cursor, extra, forum_id, user_email, related, forum) == False:
+	if getThreadsResp(resp, cursor, extra, forum_id, user_email, related=related, known=known) == False:
 		#cursor.close()
 		#conn.close()
 		

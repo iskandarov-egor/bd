@@ -68,8 +68,8 @@ def getThreadRespById(resp, cursor, id, related = [], known = {}):
 	
 	parseThreadData(resp, cursor, data, related=related, known=known)
 	return True
-	
-def getThreadsResp(resp, cursor,  extra, forum_id=None, creator_email=None,  related = [], forum = None):	
+
+def getThreadsResp(resp, cursor,  extra, forum_id=None, creator_email=None,  related = [], known = {}):	
 	query = "SELECT " + thread_fields +" FROM thread WHERE "
 	if forum_id is not None:
 		#forum_id = getForumIdByShortname(cursor, forum_short)
@@ -80,13 +80,13 @@ def getThreadsResp(resp, cursor,  extra, forum_id=None, creator_email=None,  rel
 		creator_id = getUserByEmail(creator_email, cursor)
 		if creator_id is None:
 			return False
-		query += "creator_id = " + str(creator_id)+extra+";"	
+		query += "creator_id = " + str(creator_id)+extra+";"
 	cursor.execute(query)
 	data = cursor.fetchall()
 	lim = len(data)
 	for i in range(0, lim):
 		subresp = {}
-		parseThreadData(subresp, cursor, data[i], related, forum)
+		parseThreadData(subresp, cursor, data[i], related=related, known=known)
 		resp.append(subresp)
 	return True	
 
@@ -364,7 +364,6 @@ def getUserResp(resp, cursor, email = None, id = None):
 	parseUserData(cursor, resp, data)
 	return data[2]
 
-#id must exist
 def getUserEmailById(cursor, id):
 	query = ("SELECT email FROM user WHERE id = %s;")
 	cursor.execute(query, [id])

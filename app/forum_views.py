@@ -1,6 +1,7 @@
 from app import app, mysql
 from flask import request, jsonify
 from shortcuts import *
+from MySQLdb import IntegrityError
 
 list_users_query = ("select "+user_fields+" FROM user INNER JOIN forum_authors a"
 	" ON user.id = a.author_id"
