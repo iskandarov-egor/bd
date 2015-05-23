@@ -60,7 +60,7 @@ def treeSort(cursor, resp, thread_id, sort, since, order, limit):
 		resp.append(subresp)
 
 def getThreadRespById(resp, cursor, id, related = [], known = {}):
-	query = "SELECT " + thread_fields +" FROM thread WHERE id = %s;"
+	query = "SELECT sql_no_cache " + thread_fields +" FROM thread WHERE id = %s;"
 	cursor.execute(query, [id])
 	data = cursor.fetchone()
 	if data is None:
@@ -70,7 +70,7 @@ def getThreadRespById(resp, cursor, id, related = [], known = {}):
 	return True
 
 def getThreadsResp(resp, cursor,  extra, forum_id=None, creator_email=None,  related = [], known = {}):	
-	query = "SELECT " + thread_fields +" FROM thread WHERE "
+	query = "SELECT  sql_no_cache " + thread_fields +" FROM thread WHERE "
 	if forum_id is not None:
 		#forum_id = getForumIdByShortname(cursor, forum_short)
 		#if forum_id is None:
@@ -91,7 +91,7 @@ def getThreadsResp(resp, cursor,  extra, forum_id=None, creator_email=None,  rel
 	return True	
 
 def countPostsInThread(cursor, id):
-	cursor.execute("SELECT posts FROM thread WHERE id = " + str(id) + ";")
+	cursor.execute("SELECT  sql_no_cache posts FROM thread WHERE id = " + str(id) + ";")
 	return cursor.fetchone()[0]
 
 def parseThreadData(resp, cursor, data, related = [], known = {}):
@@ -234,7 +234,7 @@ def getPathPiece(id):
 	return str(len(base36)) + base36
 
 def getParentMatpath(cursor, id):
-	query = 'SELECT matpath FROM post WHERE id = %s'
+	query = 'SELECT  sql_no_cache matpath FROM post WHERE id = %s'
 	cursor.execute(query, [id])
 	return cursor.fetchone()[0]
 
@@ -262,7 +262,7 @@ def parseArrOfArrs(arr, whereto):
 
 
 def getForumByThread(cursor, id):
-	query = ("SELECT forum_id FROM thread WHERE id = %s;")
+	query = ("SELECT  sql_no_cache forum_id FROM thread WHERE id = %s;")
 	cursor.execute(query, [id])
 	forum = cursor.fetchone()
 	if forum is None:
@@ -317,7 +317,7 @@ def getForumShortnameById(cursor, id):
 	return cursor.fetchone()[0]
 	
 def getUserByEmail(email, cursor):
-	query = ("SELECT id FROM user WHERE email = %s;")
+	query = ("SELECT id  sql_no_cache FROM user WHERE email = %s;")
 	cursor.execute(query, [email])
 	user = cursor.fetchone()
 	if user is not None:
@@ -352,10 +352,10 @@ def parseUserData(cursor, resp, data):
 #returns user id
 def getUserResp(resp, cursor, email = None, id = None):
 	if(id is None):
-		query = "SELECT " + user_fields + " FROM user WHERE email = %s;"
+		query = "SELECT  sql_no_cache " + user_fields + " FROM user WHERE email = %s;"
 		cursor.execute(query, [email])
 	else:
-		query = "SELECT " + user_fields + " FROM user WHERE id = %s;"
+		query = "SELECT  sql_no_cache " + user_fields + " FROM user WHERE id = %s;"
 		cursor.execute(query, [id])
 	data = cursor.fetchone()
 	if data is None:
@@ -365,14 +365,14 @@ def getUserResp(resp, cursor, email = None, id = None):
 	return data[2]
 
 def getUserEmailById(cursor, id):
-	query = ("SELECT email FROM user WHERE id = %s;")
+	query = ("SELECT  sql_no_cache email FROM user WHERE id = %s;")
 	cursor.execute(query, [id])
 	email = cursor.fetchone()[0]
 	
 	return email
 
 
-getFollowers_query = ("SELECT email FROM user u "
+getFollowers_query = ("SELECT  sql_no_cache  email FROM user u "
 			"INNER JOIN following f "
 			"ON f.follower_id = u.id "
 			"WHERE f.followee_id = %s ;")
@@ -383,7 +383,7 @@ def getFollowers(cursor, id, resp):
 	resp['followers'] = []
 	parseArrOfArrs(followers, resp['followers'])
 
-getFollowees_query = ("SELECT email FROM user u "
+getFollowees_query = ("SELECT sql_no_cache  email FROM user u "
 			"INNER JOIN following f "
 			"ON f.followee_id = u.id "
 			"WHERE f.follower_id = %s ;")
@@ -418,12 +418,12 @@ def getFolloweesQW(cursor, id, resp):
 
 def getFollowersResp(cursor, id, resp, wees=False, extra = ''):	
 	if wees:
-		query = ("SELECT " + user_fields + " FROM user "
+		query = ("SELECT  sql_no_cache " + user_fields + " FROM user "
 			"INNER JOIN following f "
 			"ON f.followee_id = user.id "
 			"WHERE f.follower_id = %s ") + extra + ';'
 	else:
-		query = ("SELECT " + user_fields + " FROM user"
+		query = ("SELECT  sql_no_cache " + user_fields + " FROM user"
 		" INNER JOIN following f"
 		" ON f.follower_id = user.id"
 		" WHERE f.followee_id = %s " + extra + ';')
@@ -528,7 +528,7 @@ def parsePostData2(resp, cursor, data):
 	resp['path'] = data[0]
 
 def getThreadIdById(cursor, id):
-	cursor.execute('SELECT id FROM thread WHERE id=%s;', [id])
+	cursor.execute('SELECT  sql_no_cache id FROM thread WHERE id=%s;', [id])
 	id = cursor.fetchone()
 
 	if id is None:
@@ -537,7 +537,7 @@ def getThreadIdById(cursor, id):
 		return id[0]
 
 def getPostRespById(resp, cursor, id, related = []):
-	query = "SELECT " + postParams + " FROM post WHERE id = %s;"
+	query = "SELECT sql_no_cache " + postParams + " FROM post WHERE id = %s;"
 
 	cursor.execute(query, [id])
 	
@@ -549,7 +549,7 @@ def getPostRespById(resp, cursor, id, related = []):
 	return True
 	
 def getPostsResp(resp, cursor, forum_id=None, thread_id=None, user_email=None, extra='', related=[], known = {}):
-	query = ("SELECT " + postParams + " FROM post WHERE ")
+	query = ("SELECT sql_no_cache " + postParams + " FROM post WHERE ")
 	if forum_id is not None:
 		param = forum_id #getForumIdByShortname(cursor, forum_short)
 		if param is None:
