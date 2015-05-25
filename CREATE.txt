@@ -5,6 +5,9 @@ CREATE TABLE user (
 	name VARCHAR(33),
 	email VARCHAR(255) UNIQUE NOT NULL,
 	isAnonymous BOOLEAN DEFAULT FALSE,
+	hasFollowers BOOLEAN DEFAULT 0,
+	hasFollowees BOOLEAN DEFAULT 0,
+	hasSubscriptions BOOLEAN DEFAULT 0,
 	PRIMARY KEY(id)
 );
 

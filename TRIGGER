@@ -1,3 +1,4 @@
+drop trigger if exists postAfterInsert;
 delimiter |
 CREATE TRIGGER postAfterInsert AFTER INSERT ON post
 FOR EACH ROW
@@ -9,6 +10,7 @@ BEGIN
 END;|
 delimiter ;
 
+drop trigger if exists postAfterDelete;
 delimiter |
 CREATE TRIGGER postAfterDelete AFTER DELETE ON post
 FOR EACH ROW
@@ -23,6 +25,7 @@ BEGIN
 END;|
 delimiter ;
 
+drop trigger if exists countPostsMarkDeleted;
 delimiter |
 CREATE TRIGGER countPostsMarkDeleted AFTER UPDATE ON post
 FOR EACH ROW
@@ -35,41 +38,52 @@ BEGIN
         END IF;
     ELSE
         UPDATE thread SET posts = posts + 1 WHERE id = NEW.thread_id;
+        INSERT IGNORE INTO forum_authors (forum_id, author_id) VALUES(NEW.forum_id, NEW.author_id);
     END IF;
   END IF;
 END;|
 delimiter ;
 
+drop trigger if exists followingAfterInsert;
 delimiter |
 CREATE TRIGGER followingAfterInsert AFTER INSERT ON following
 FOR EACH ROW
 BEGIN  
-  UPDATE user SET followees = followees + 1 WHERE id = NEW.follower_id;
-  UPDATE user SET followers = followers + 1 WHERE id = NEW.followee_id;
+  UPDATE user SET hasFollowers = 1 WHERE id = NEW.followee_id;
+  UPDATE user SET hasFollowees = 1 WHERE id = NEW.follower_id;
 END;|
 delimiter ;
 
+drop trigger if exists followingAfterDelete;
 delimiter |
 CREATE TRIGGER followingAfterDelete AFTER DELETE ON following
 FOR EACH ROW
 BEGIN  
-  UPDATE user SET followees = followees - 1 WHERE id = OLD.follower_id;
-  UPDATE user SET followers = followers - 1 WHERE id = OLD.followee_id;
+  IF (SELECT follower_id FROM following WHERE follower_id = OLD.follower_id LIMIT 1) IS NULL THEN  
+	UPDATE user SET hasFollowees = 0 WHERE id = OLD.follower_id;
+  END IF;
+  IF (SELECT follower_id FROM following WHERE followee_id = OLD.followee_id LIMIT 1) IS NULL THEN  
+	UPDATE user SET hasFollowers = 0 WHERE id = OLD.followee_id;
+  END IF;
 END;|
 delimiter ;
 
+drop trigger if exists subscriptionAfterInsert;
 delimiter |
 CREATE TRIGGER subscriptionAfterInsert AFTER INSERT ON subscription
 FOR EACH ROW
 BEGIN  
-  UPDATE user SET subs = subs + 1 WHERE id = NEW.user_id;
+  UPDATE user SET hasSubscriptions = 1 WHERE id = NEW.user_id;
 END;|
 delimiter ;
 
+drop trigger if exists subscriptionAfterDelete;
 delimiter |
 CREATE TRIGGER subscriptionAfterDelete AFTER DELETE ON subscription
 FOR EACH ROW
 BEGIN  
-  UPDATE user SET subs = subs -`1 WHERE id = NEW.user_id;
+  IF (SELECT user_id FROM subscription WHERE user_id = OLD.user_id LIMIT 1) IS NULL THEN  
+    UPDATE user SET hasSubscriptions = 0 WHERE id = OLD.user_id;
+  END IF;
 END;|
 delimiter ;

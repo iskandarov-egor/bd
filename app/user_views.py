@@ -1,7 +1,7 @@
 from app import app, mysql
 from flask import request, jsonify
 import MySQLdb
-
+import ujson
 
 from shortcuts import *
 	
@@ -71,7 +71,7 @@ def create_user():
 		tosend = {}
 		tosend['code'] = 5
 		tosend['response'] = 'user with this email already exists'	
-		return jsonify(**tosend)
+		return ujson.dumps(tosend)
 	
 	
 @app.route('/db/api/user/details/', methods = ['GET'])	
@@ -92,7 +92,7 @@ def get_user_details():
 	#conn.close()
 	tosend['code'] = 0
 	tosend['response'] = resp
-	return jsonify(**tosend)
+	return ujson.dumps(tosend)
 	
 
 
@@ -128,7 +128,7 @@ def list_followers_ees():
 	tosend['code'] = 0
 	tosend['response'] = resp	
 			
-	return jsonify(**tosend)
+	return ujson.dumps(tosend)
 
 @app.route('/db/api/user/follow/', methods = ['POST'])
 @app.route('/db/api/user/unfollow/', methods = ['POST'])	
@@ -172,7 +172,7 @@ def un_follow_user():
 	tosend['code'] = 0
 	tosend['response'] = resp
 				
-	return jsonify(**tosend)		
+	return ujson.dumps(tosend)		
 
 @app.route('/db/api/user/updateProfile/', methods = ['POST'])	
 def update_profile():
@@ -229,7 +229,7 @@ def clear():
 	tosend = {}
 	tosend['code'] = 0
 	tosend['response'] = "OK"
-	return jsonify(**tosend)
+	return ujson.dumps(tosend)
 	
 def shutdown_server():
     func = request.environ.get('werkzeug.server.shutdown')
@@ -256,5 +256,5 @@ def catch_all(path):
 	tosend = {}
 	tosend['code'] = 3
 	tosend['response'] = "this url is not in api"
-	return jsonify(**tosend)
+	return ujson.dumps(tosend)
 	

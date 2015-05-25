@@ -380,7 +380,6 @@ getFollowers_query = ("SELECT  sql_no_cache  email FROM user u "
 def getFollowers(cursor, id, resp):	
 	cursor.execute(getFollowers_query, [id])
 	followers = cursor.fetchall()
-	followers = []
 	resp['followers'] = []
 	parseArrOfArrs(followers, resp['followers'])
 
@@ -389,9 +388,9 @@ getFollowees_query = ("SELECT sql_no_cache  email FROM user u "
 			"ON f.followee_id = u.id "
 			"WHERE f.follower_id = %s ;")
 def getFollowees(cursor, id, resp):
-	#cursor.execute(getFollowees_query, [id])		
-	#following = cursor.fetchall()
-	following = []
+	cursor.execute(getFollowees_query, [id])		
+	following = cursor.fetchall()
+	
 	resp['following'] = []
 	parseArrOfArrs(following, resp['following'])
 
