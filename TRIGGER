@@ -39,3 +39,37 @@ BEGIN
   END IF;
 END;|
 delimiter ;
+
+delimiter |
+CREATE TRIGGER followingAfterInsert AFTER INSERT ON following
+FOR EACH ROW
+BEGIN  
+  UPDATE user SET followees = followees + 1 WHERE id = NEW.follower_id;
+  UPDATE user SET followers = followers + 1 WHERE id = NEW.followee_id;
+END;|
+delimiter ;
+
+delimiter |
+CREATE TRIGGER followingAfterDelete AFTER DELETE ON following
+FOR EACH ROW
+BEGIN  
+  UPDATE user SET followees = followees - 1 WHERE id = OLD.follower_id;
+  UPDATE user SET followers = followers - 1 WHERE id = OLD.followee_id;
+END;|
+delimiter ;
+
+delimiter |
+CREATE TRIGGER subscriptionAfterInsert AFTER INSERT ON subscription
+FOR EACH ROW
+BEGIN  
+  UPDATE user SET subs = subs + 1 WHERE id = NEW.user_id;
+END;|
+delimiter ;
+
+delimiter |
+CREATE TRIGGER subscriptionAfterDelete AFTER DELETE ON subscription
+FOR EACH ROW
+BEGIN  
+  UPDATE user SET subs = subs -`1 WHERE id = NEW.user_id;
+END;|
+delimiter ;

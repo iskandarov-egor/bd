@@ -14,10 +14,10 @@ def list_users():
 	if short is None:
 		return didntFind('forum short name')
 	
-	since = request.args.get('since_id')	
+	since = request.args.get('since_id')
 	order = request.args.get('order')
 	limit = request.args.get('limit')
-	extra = sinceOrderLimit(since, order, limit, orderby='a.author_id', sinceWhat='a.author_id')	
+	extra = sinceOrderLimit(since, order, limit, orderby='user.name', sinceWhat='a.author_id')	
 	if extra == False:
 		return badExtra()
 	
@@ -32,9 +32,6 @@ def list_users():
 		return dontExist('forum')
 	
 	query = (list_users_query+str(forum_id)+extra+";")
-	#query = ("select "+user_fields+" FROM user INNER JOIN"
-	#" (select * from forum_authors where forum_authors.forum_id="+str(forum_id)
-	#+ extra +") as a ON a.author_id = user.id "+getOrderExtra(order, "a.author_id"))
 	
 	cursor.execute(query)
 	alldata = cursor.fetchall()

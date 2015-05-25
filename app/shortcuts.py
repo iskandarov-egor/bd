@@ -394,28 +394,6 @@ def getFollowees(cursor, id, resp):
 	following = []
 	resp['following'] = []
 	parseArrOfArrs(following, resp['following'])
-		
-def getFollowersQW(cursor, id, resp):	
-	query = ("SELECT follower_id FROM following "
-			"WHERE followee_id = %s ;") + extra + ';'
-	
-	cursor.execute(query, [id])		
-	followers = cursor.fetchall()
-	resp['followers'] = []
-	parseArrOfArrs(followers, resp['followers'])
-
-
-def getFolloweesQW(cursor, id, resp):
-	query = ("SELECT followee_id FROM following "
-			"WHERE follower_id = %s ") + extra + ';'
-	
-	cursor.execute(query, [id])		
-	following = cursor.fetchall()
-	resp['following'] = []
-	parseArrOfArrs(following, resp['following'])
-
-
-
 
 def getFollowersResp(cursor, id, resp, wees=False, extra = ''):	
 	if wees:
@@ -430,26 +408,6 @@ def getFollowersResp(cursor, id, resp, wees=False, extra = ''):
 		" WHERE f.followee_id = %s " + extra + ';')
 			
 	cursor.execute(query, [id])		
-	alldata = cursor.fetchall()
-	
-	for data in alldata:
-		subresp = {}
-		parseUserData(cursor, subresp, data)
-		resp.append(subresp)
-
-def getFollowersRespQW(cursor, id, resp, wees=False, extra = ''):	
-	if wees:
-		query = ("SELECT " + user_fields + " FROM user "
-			"INNER JOIN fol f "
-			"ON f.followee_id = user.id "
-			"WHERE f.follower_id = %s ") + extra + ';'
-	else:
-		query = ("SELECT " + user_fields + " FROM user"
-		" INNER JOIN fol f"
-		" ON f.follower_email = user.email"
-		" WHERE f.followee_email = %s " + extra + ';')
-			
-	cursor.execute(query, [email])		
 	alldata = cursor.fetchall()
 	
 	for data in alldata:
