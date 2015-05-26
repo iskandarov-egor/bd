@@ -6,7 +6,7 @@ mysql = MySQL()
 
 app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = '250246'
-app.config['MYSQL_DB'] = 'forumdb2'
+app.config['MYSQL_DB'] = 'forumdb'
 app.config['MYSQL_HOST'] = 'localhost'
 #app.config['MYSQL_DATABASE_USER'] = 'root'
 #app.config['MYSQL_DATABASE_PASSWORD'] = '2502460'

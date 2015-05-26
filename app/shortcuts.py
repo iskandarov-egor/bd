@@ -83,11 +83,10 @@ def getThreadsResp(resp, cursor,  extra, forum_id=None, creator_email=None,  rel
 			return False
 		query += "creator_id = " + str(creator_id)+extra+";"
 	cursor.execute(query)
-	data = cursor.fetchall()
-	lim = len(data)
-	for i in range(0, lim):
+	alldata = cursor.fetchall()
+	for data in alldata:
 		subresp = {}
-		parseThreadData(subresp, cursor, data[i], related=related, known=known)
+		parseThreadData(subresp, cursor, data, related=related, known=known)
 		resp.append(subresp)
 	return True	
 
@@ -508,7 +507,7 @@ def getPostRespById(resp, cursor, id, related = []):
 
 
 def getPostsResp(resp, cursor, forum_id=None, thread_id=None, user_email=None, extra='', related=[], known = {}):
-	query = ("SELECT sql_no_cache " + postParams + " FROM post WHERE ")
+	query = ("SELECT " + postParams + " FROM post WHERE ")
 	if forum_id is not None:
 		param = forum_id #getForumIdByShortname(cursor, forum_short)
 		if param is None:
@@ -534,7 +533,7 @@ def getPostsResp(resp, cursor, forum_id=None, thread_id=None, user_email=None, e
 	
 		
 def getForumPostsResp(resp, cursor, forum_id, extra, related, forum):
-	query = ("SELECT sql_no_cache " + postParams + " FROM post WHERE forum_id="+str(forum_id)+" "+extra+';')
+	query = ("SELECT " + postParams + " FROM post WHERE forum_id="+str(forum_id)+" "+extra+';')
 	
 	
 	cursor.execute(query)
@@ -548,13 +547,14 @@ def getForumPostsResp(resp, cursor, forum_id, extra, related, forum):
 	
 		
 def getUserPostsResp(resp, cursor, user_email, extra):
-	query = ("SELECT sql_no_cache " + postParams + " FROM post WHERE author_id=%s ")
+	query = ("SELECT " + postParams + " FROM post WHERE author_id=%s ")
 	
 	id = getUserByEmail(user_email, cursor)
 	if id is None:
 		return False
 	
 	query += extra + ';'
+	
 	cursor.execute(query, [id])
 	alldata = cursor.fetchall()
 	related = []
@@ -566,7 +566,7 @@ def getUserPostsResp(resp, cursor, user_email, extra):
 	
 
 def getThreadPostsResp(resp, cursor, thread_id=None, extra=''):
-	query = ("SELECT sql_no_cache " + postParams + " FROM post WHERE thread_id=%s ")
+	query = ("SELECT " + postParams + " FROM post WHERE thread_id=%s ")
 	
 	param = int(thread_id)
 	if getThreadIdById(cursor, thread_id) is None:
