@@ -159,7 +159,7 @@ def create_forum():
 		resp['short_name'] = shortname
 		resp['name'] = name
 		resp['user'] = email
-	except MySQLdb.IntegrityError:
+	except IntegrityError:
 		id = getForumIdByShortname(cursor, shortname)
 		if id is None:
 			getForumResp(resp, cursor, name=name)

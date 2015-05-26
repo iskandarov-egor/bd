@@ -28,9 +28,6 @@ def user_list_posts_view():
 		#cursor.close()
 		#conn.close()
 		return dontExist('user')
-	
-	
-	
 		
 
 	#cursor.close()
