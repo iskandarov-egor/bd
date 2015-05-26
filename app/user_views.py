@@ -117,7 +117,7 @@ def list_followers_ees():
 	order = request.args.get('order')
 	limit = request.args.get('limit')
 	
-	extra = sinceOrderLimit(since, order, limit, orderby='email', sinceWhat='id')	
+	extra = sinceOrderLimit(since, order, limit, orderby='name', sinceWhat='id')	
 	
 	if request.url_rule.rule == '/db/api/user/listFollowers/':
 		getFollowersResp(cursor, id, resp, False, extra)
