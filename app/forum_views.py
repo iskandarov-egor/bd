@@ -8,7 +8,7 @@ def forum_list_posts(forum_short, related, since, order, limit):
 	forum_id = getForumIdByShortname(cursor, forum_short)
 	if forum_id is None:
 		return dontExist('forum')
-	known = {}
+	
 	if 'forum' in related:
 		forum = {}
 		getForumResp(forum, cursor, forum_id)		
@@ -56,7 +56,7 @@ def list_users():
 	since = request.args.get('since_id')
 	order = request.args.get('order')
 	limit = request.args.get('limit')
-	extra = sinceOrderLimit(since, order, limit, orderby='user.name', sinceWhat='a.author_id')	
+	extra = sinceOrderLimit(since, order, limit, orderby='a.name', sinceWhat='a.author_id')	
 	if extra == False:
 		return badExtra()
 	

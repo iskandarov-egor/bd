@@ -436,18 +436,17 @@ def getSubscriptions(cursor, id):
 	subs = []
 	parseArrOfArrs(cursor.fetchall(), subs)
 	return subs
-	
 
 def parsePostData(resp, cursor, data, related = [], known = {}):
 	if 'user' in known:
 		resp['user'] = known['user']
 	else:
-		#if 'user' in related:
-		#	uresp = {}
-		#	getUserResp(uresp, cursor, id = data[5])
-		#	resp['user'] = uresp
-		#else:
-		resp['user'] = getUserEmailById(cursor, data[5])
+		if 'user' in related:
+			uresp = {}
+			getUserResp(uresp, cursor, id = data[5])
+			resp['user'] = uresp
+		else:
+			resp['user'] =  getUserEmailById(cursor, data[5])
 	if 'thread' in related:
 		tresp = {}
 		getThreadRespById(tresp, cursor, data[12], related=[], known=known)
@@ -535,10 +534,10 @@ def getPostsResp(resp, cursor, forum_id=None, thread_id=None, user_email=None, e
 	
 		
 def getForumPostsResp(resp, cursor, forum_id, extra, related, forum):
-	query = ("SELECT sql_no_cache " + postParams + " FROM post WHERE forum_id=%s ")
+	query = ("SELECT sql_no_cache " + postParams + " FROM post WHERE forum_id="+str(forum_id)+" "+extra+';')
 	
-	query += extra + ';'
-	cursor.execute(query, [forum_id])
+	
+	cursor.execute(query)
 	alldata = cursor.fetchall()
 	known={'forum':forum}
 	
