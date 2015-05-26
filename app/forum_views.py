@@ -3,6 +3,45 @@ from flask import request, jsonify
 from shortcuts import *
 from MySQLdb import IntegrityError
 
+def forum_list_posts(forum_short, related, since, order, limit):	
+	cursor = mysql.connection.cursor()	
+	forum_id = getForumIdByShortname(cursor, forum_short)
+	if forum_id is None:
+		return dontExist('forum')
+	known = {}
+	if 'forum' in related:
+		forum = {}
+		getForumResp(forum, cursor, forum_id)		
+	else:
+		forum = forum_short	
+	extra = sinceOrderLimit(since, order, limit)
+	if extra == False:
+		return badExtra()
+	resp = []
+	
+	if getForumPostsResp(resp, cursor, forum_id, extra, related, forum) == False:
+		return dontExist('forum')
+	return OK(resp)
+
+@app.route('/db/api/forum/listPosts/', methods = ['GET'])
+def forum_list_posts_view():
+	
+	
+	forum_short = request.args.get('forum')
+	if forum_short is None:
+		return didntFind('forum shortname')
+	related = request.args.getlist('related')
+	if False == checkRelated(related, ('thread', 'forum', 'user')):
+		return badJson('related argument is incorrect')		
+	
+		
+	since = request.args.get('since')
+	limit = request.args.get('limit')
+	order = request.args.get('order')
+	
+	return forum_list_posts(forum_short, related, since, order, limit)
+
+
 list_users_query = ("select "+user_fields+" FROM user INNER JOIN forum_authors a"
 	" ON user.id = a.author_id"
 	" where a.forum_id=")

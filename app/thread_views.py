@@ -3,8 +3,9 @@ from flask import request, jsonify
 import MySQLdb
 from shortcuts import *
 
+
 @app.route('/db/api/thread/listPosts/', methods = ['GET'])
-def thread_list_posts():
+def thread_list_posts_view():
 	thread_id = request.args.get('thread')
 	if thread_id is None:
 		return didntFind('thread')
@@ -24,7 +25,7 @@ def thread_list_posts():
 			return badExtra()
 		#conn = mysql.connect()
 		cursor = mysql.connection.cursor()	
-		if False == getPostsResp(resp, cursor, thread_id=thread_id, extra=extra):
+		if False == getThreadPostsResp(resp, cursor, thread_id=thread_id, extra=extra):
 			#cursor.close()
 			#conn.close()
 			return dontExist('thread')

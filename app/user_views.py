@@ -5,6 +5,39 @@ import ujson
 
 from shortcuts import *
 	
+
+@app.route('/db/api/user/listPosts/', methods = ['GET'])
+def user_list_posts_view():
+	
+	user_email = request.args.get('user')
+	if user_email is None:
+		return didntFind('user email')
+	cursor = mysql.connection.cursor()	
+	
+	since = request.args.get('since')
+	limit = request.args.get('limit')
+	order = request.args.get('order')
+	
+	extra = sinceOrderLimit(since, order, limit)
+	if extra == False:
+		return badExtra()
+	resp = []
+	#conn = mysql.connect()
+	
+	if getUserPostsResp(resp, cursor, user_email, extra) == False:
+		#cursor.close()
+		#conn.close()
+		return dontExist('user')
+	
+	
+	
+		
+
+	#cursor.close()
+	#conn.close()
+	return OK(resp)	
+	
+
 @app.route('/db/api/user/listPostsQW/', methods = ['GET'])
 def list_postsQW():
 	user_email = request.args.get('user')

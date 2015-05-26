@@ -1,6 +1,7 @@
 from app import app, mysql
 from flask import request, jsonify
 import MySQLdb
+from forum_views import forum_list_posts
 from shortcuts import *
 
 @app.route('/db/api/post/vote/', methods = ['POST'])	
@@ -97,80 +98,38 @@ def restmove_post():
 	return OK(resp)	
 
 
+
+#@app.route('/db/api/forum/listPosts/', methods = ['GET'])
 @app.route('/db/api/post/list/', methods = ['GET'])	
-@app.route('/db/api/forum/listPosts/', methods = ['GET'])
-@app.route('/db/api/user/listPosts/', methods = ['GET'])
+#@app.route('/db/api/user/listPosts/', methods = ['GET'])
 def list_posts():
-	fromforum = (request.url_rule.rule == '/db/api/forum/listPosts/')
-	if fromforum == False:
-		fromuser = (request.url_rule.rule == '/db/api/user/listPosts/')
-	else:
-		fromuser = False	
+	
 	known = {}
-	if fromuser:
-		user_email = request.args.get('user')
-		if user_email is None:
-			return didntFind('user email')
-		known['user'] = user_email
-	else:
-		user_email = None
+	
 	forum_short = request.args.get('forum')
-	if forum_short is None and not fromuser:
-		if fromforum:
-			return didntFind('forum shortname')
+	if forum_short is None:
 		thread_id = request.args.get('thread')
 		if thread_id is None:
 			return didntFind('forum shortname or post id')
 	else:
 		thread_id = None
 	
-	if fromforum:
-		related = request.args.getlist('related')
-		if False == checkRelated(related, ('thread', 'forum', 'user')):
-			return badJson('related argument is incorrect')		
-	else:
-		related = []
-	
-	cursor = mysql.connection.cursor()	
-	
-	if forum_short is not None:
-		forum_id = getForumIdByShortname(cursor, forum_short)		
-		if 'forum' in related:
-			forum = {}
-			getForumResp(forum, cursor, forum_id)
-			known['forum'] = forum
-		else:
-			known['forum'] = forum_short	
-	else:
-		forum_id = None
-		forum = None
-	
 	since = request.args.get('since')
 	limit = request.args.get('limit')
 	order = request.args.get('order')
 	
+	if forum_short is not None:
+		return forum_list_posts(forum_short, [], since, order, limit)
+	
+	cursor = mysql.connection.cursor()	
 	extra = sinceOrderLimit(since, order, limit)
 	if extra == False:
 		return badExtra()
 	resp = []
-	#conn = mysql.connect()
 	
-	if getPostsResp(resp, cursor, forum_id, thread_id, user_email, extra, related, known) == False:
-		#cursor.close()
-		#conn.close()
-		if fromforum:
-			return dontExist('forum')
-		elif fromuser:
-			return dontExist('user')
-		else:
-			return dontExist('thread')
+	if getThreadPostsResp(resp, cursor, thread_id, extra) == False:
+		return dontExist('thread')
 	
-	
-	
-		
-
-	#cursor.close()
-	#conn.close()
 	return OK(resp)
 
 @app.route('/db/api/post/create/', methods = ['POST'])

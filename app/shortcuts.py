@@ -19,11 +19,11 @@ def arePresent(keys, json):
 def areOfType(things, typ):
 	if not (isinstance(things[0], typ) or things[0] is None):
 		return False
-	result = True
+	
 	for thing in things:
 		if not (isinstance(thing, typ) or thing is None):
-			result = False
-	return result
+			return False
+	return True
 
 def wrongTypes():
 	return badJson('incorrect argument types')
@@ -442,12 +442,12 @@ def parsePostData(resp, cursor, data, related = [], known = {}):
 	if 'user' in known:
 		resp['user'] = known['user']
 	else:
-		if 'user' in related:
-			uresp = {}
-			getUserResp(uresp, cursor, id = data[5])
-			resp['user'] = uresp
-		else:
-			resp['user'] = getUserEmailById(cursor, data[5])
+		#if 'user' in related:
+		#	uresp = {}
+		#	getUserResp(uresp, cursor, id = data[5])
+		#	resp['user'] = uresp
+		#else:
+		resp['user'] = getUserEmailById(cursor, data[5])
 	if 'thread' in related:
 		tresp = {}
 		getThreadRespById(tresp, cursor, data[12], related=[], known=known)
@@ -506,6 +506,8 @@ def getPostRespById(resp, cursor, id, related = []):
 	parsePostData(resp, cursor, data, related)
 	return True
 	
+
+
 def getPostsResp(resp, cursor, forum_id=None, thread_id=None, user_email=None, extra='', related=[], known = {}):
 	query = ("SELECT sql_no_cache " + postParams + " FROM post WHERE ")
 	if forum_id is not None:
@@ -530,4 +532,53 @@ def getPostsResp(resp, cursor, forum_id=None, thread_id=None, user_email=None, e
 		subresp = {}
 		parsePostData(subresp, cursor, data, related=related, known=known)
 		resp.append(subresp)
+	
 		
+def getForumPostsResp(resp, cursor, forum_id, extra, related, forum):
+	query = ("SELECT sql_no_cache " + postParams + " FROM post WHERE forum_id=%s ")
+	
+	query += extra + ';'
+	cursor.execute(query, [forum_id])
+	alldata = cursor.fetchall()
+	known={'forum':forum}
+	
+	for data in alldata:
+		subresp = {}
+		parsePostData(subresp, cursor, data, related=related, known=known)
+		resp.append(subresp)
+	
+		
+def getUserPostsResp(resp, cursor, user_email, extra):
+	query = ("SELECT sql_no_cache " + postParams + " FROM post WHERE author_id=%s ")
+	
+	id = getUserByEmail(user_email, cursor)
+	if id is None:
+		return False
+	
+	query += extra + ';'
+	cursor.execute(query, [id])
+	alldata = cursor.fetchall()
+	related = []
+	known={'user':user_email}
+	for data in alldata:
+		subresp = {}		
+		parsePostData(subresp, cursor, data, related=related, known=known)
+		resp.append(subresp)
+	
+
+def getThreadPostsResp(resp, cursor, thread_id=None, extra=''):
+	query = ("SELECT sql_no_cache " + postParams + " FROM post WHERE thread_id=%s ")
+	
+	param = int(thread_id)
+	if getThreadIdById(cursor, thread_id) is None:
+		return False
+
+	query += extra + ';'
+	cursor.execute(query, [param])
+	alldata = cursor.fetchall()
+	related = []
+	known = {}
+	for data in alldata:
+		subresp = {}
+		parsePostData(subresp, cursor, data, related=related, known=known)
+		resp.append(subresp)
