@@ -373,7 +373,7 @@ def getUserEmailById(cursor, id):
 	return email
 
 
-getFollowers_query = ("SELECT  sql_no_cache  email FROM user u "
+getFollowers_query = ("SELECT email FROM user u "
 			"INNER JOIN following f "
 			"ON f.follower_id = u.id "
 			"WHERE f.followee_id = %s ;")
@@ -383,7 +383,7 @@ def getFollowers(cursor, id, resp):
 	resp['followers'] = []
 	parseArrOfArrs(followers, resp['followers'])
 
-getFollowees_query = ("SELECT sql_no_cache  email FROM user u "
+getFollowees_query = ("SELECT email FROM user u "
 			"INNER JOIN following f "
 			"ON f.followee_id = u.id "
 			"WHERE f.follower_id = %s ;")
@@ -396,12 +396,12 @@ def getFollowees(cursor, id, resp):
 
 def getFollowersResp(cursor, id, resp, wees=False, extra = ''):	
 	if wees:
-		query = ("SELECT  sql_no_cache " + user_fields + " FROM user "
+		query = ("SELECT " + user_fields + " FROM user "
 			"INNER JOIN following f "
 			"ON f.followee_id = user.id "
 			"WHERE f.follower_id = %s ") + extra + ';'
 	else:
-		query = ("SELECT  sql_no_cache " + user_fields + " FROM user"
+		query = ("SELECT " + user_fields + " FROM user"
 		" INNER JOIN following f"
 		" ON f.follower_id = user.id"
 		" WHERE f.followee_id = %s " + extra + ';')
