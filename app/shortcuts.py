@@ -336,15 +336,15 @@ def parseUserData(cursor, resp, data):
 	resp['name'] = data[4]
 	
 	resp['username'] = data[5]
-	if data[6] == 0:
+	if data[6] == 110:
 		resp['followers'] = []
 	else:
 		getFollowers(cursor, data[2], resp)
-	if data[7] == 0:
+	if data[7] == 110:
 		resp['followees'] = []
 	else:
 		getFollowees(cursor, data[2], resp)
-	if data[8] == 0:
+	if data[8] == 110:
 		resp['subscriptions'] = []
 	else:
 		resp['subscriptions'] = getSubscriptions(cursor, data[2])
