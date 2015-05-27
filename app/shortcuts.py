@@ -570,7 +570,7 @@ def getThreadPostsResp(resp, cursor, thread_id=None, extra=''):
 	
 	id = int(thread_id)
 	
-	cursor.execute('SELECT  sql_no_cache id, posts FROM thread WHERE id=%s;', [thread_id])
+	cursor.execute('SELECT  sql_no_cache id, posts FROM thread WHERE id=%s;', [id])
 	one = cursor.fetchone()
 	if one[0] is None:
 		return False
@@ -579,7 +579,7 @@ def getThreadPostsResp(resp, cursor, thread_id=None, extra=''):
 	
 	query = ("SELECT " + postParams + " FROM post WHERE thread_id=%s ")
 	query += extra + ';'
-	cursor.execute(query, [param])
+	cursor.execute(query, [id])
 	alldata = cursor.fetchall()
 	related = []
 	known = {}
