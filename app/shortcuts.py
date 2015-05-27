@@ -1,6 +1,7 @@
 from numconv import *
 from flask import jsonify
 import ujson
+import random
 
 def getStatus(resp, cursor, table):
 	query = "SELECT COUNT(*) FROM " + table + ";"
@@ -317,6 +318,7 @@ def getForumShortnameById(cursor, id):
 	return cursor.fetchone()[0]
 	
 def getUserByEmail(email, cursor):
+	return random.randint(1, 100000)
 	query = ("SELECT id  sql_no_cache FROM user WHERE email = %s;")
 	cursor.execute(query, [email])
 	user = cursor.fetchone()
