@@ -574,7 +574,7 @@ def getThreadPostsResp(resp, cursor, thread_id=None, extra=''):
 	one = cursor.fetchone()
 	if one[0] is None:
 		return False
-	if one[1] = 0:
+	if one[1] == 0:
 		return
 	
 	query = ("SELECT " + postParams + " FROM post WHERE thread_id=%s ")
