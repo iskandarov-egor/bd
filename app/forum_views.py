@@ -115,7 +115,7 @@ def get_forum_details():
 	shortname = request.args.get('forum')	
 	if shortname is None:
 		return didntFind('forum short name')
-		
+
 	related = request.args.getlist('related')
 	if False == checkRelated(related, ('user')):
 		return badJson('"related" parameter is incorrect')

@@ -87,3 +87,14 @@ BEGIN
   END IF;
 END;|
 delimiter ;
+
+drop trigger if exists userAfterUpdate;
+delimiter |
+CREATE TRIGGER userAfterUpdate AFTER UPDATE ON user
+FOR EACH ROW
+BEGIN
+  
+    UPDATE forum_authors SET name = NEW.name WHERE author_id = OLD.id;
+  
+END;|
+delimiter ;

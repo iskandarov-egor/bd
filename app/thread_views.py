@@ -186,7 +186,7 @@ def list_threads():
 		if user_email is not None:
 			return badJson('both user and forum arguments found')
 	
-			
+
 	cursor = mysql.connection.cursor()	
 	if fromforum:
 		related = request.args.getlist('related')		
@@ -204,7 +204,7 @@ def list_threads():
 	else:
 		forum_id = None
 		forum = None
-		
+
 	
 	since = request.args.get('since')
 	limit = request.args.get('limit')
