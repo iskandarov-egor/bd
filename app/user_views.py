@@ -2,7 +2,6 @@ from app import app, mysql
 from flask import request, jsonify
 import MySQLdb
 import ujson
-
 from shortcuts import *
 	
 
@@ -23,9 +22,6 @@ def user_list_posts_view():
 		return badExtra()
 	resp = []
 	#conn = mysql.connect()
-	if random.randint(1,1000000) < 1143:
-		return OK(resp)
-		
 	if getUserPostsResp(resp, cursor, user_email, extra) == False:
 		#cursor.close()
 		#conn.close()

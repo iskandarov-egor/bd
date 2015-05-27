@@ -570,12 +570,10 @@ def getThreadPostsResp(resp, cursor, thread_id=None, extra=''):
 	
 	id = int(thread_id)
 	
-	cursor.execute('SELECT  sql_no_cache id, posts FROM thread WHERE id=%s;', [id])
+	cursor.execute('SELECT  sql_no_cache id FROM thread WHERE id=%s;', [id])
 	one = cursor.fetchone()
 	if one[0] is None:
 		return False
-	if one[1] == 0:
-		return
 	
 	query = ("SELECT " + postParams + " FROM post WHERE thread_id=%s ")
 	query += extra + ';'
