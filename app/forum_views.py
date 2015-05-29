@@ -70,7 +70,7 @@ def list_users():
 		return dontExist('forum')
 	
 	query = (list_users_query+str(forum_id)+extra+";")
-	print query
+
 	cursor.execute(query)
 	alldata = cursor.fetchall()
 	

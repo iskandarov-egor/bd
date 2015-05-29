@@ -76,7 +76,7 @@ def getThreadsResp(resp, cursor,  extra, forum_id=None, creator_email=None,  rel
 		creator_id = getUserByEmail(creator_email, cursor)
 		if creator_id is None:
 			return False
-		query += "creator_email = '" + creator_email+"'"+extra+";"
+		query += "creator_id = " + str(creator_id)++extra+";"
 	cursor.execute(query)
 	alldata = cursor.fetchall()
 	for data in alldata:
@@ -398,7 +398,7 @@ def getForumPostsResp(resp, cursor, forum_id, extra, related, forum):
 	
 		
 def getUserPostsResp(resp, cursor, user_email, extra):
-	query = ("SELECT sql_no_cache " + postParams + " FROM post WHERE author_email=%s ")
+	query = ("SELECT sql_no_cache " + postParams + " FROM post WHERE author_id=%s ")
 	
 	id = getUserByEmail(user_email, cursor)
 	if id is None:
@@ -406,7 +406,7 @@ def getUserPostsResp(resp, cursor, user_email, extra):
 	
 	query += extra + ';'
 	
-	cursor.execute(query, [user_email])
+	cursor.execute(query, [id])
 	alldata = cursor.fetchall()
 	related = []
 	known={'user':user_email}
