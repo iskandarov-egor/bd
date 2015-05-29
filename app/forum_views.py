@@ -1,6 +1,7 @@
 from app import app, mysql
 from flask import request, jsonify
 from shortcuts import *
+from response import *
 from MySQLdb import IntegrityError
 
 def forum_list_posts(forum_short, related, since, order, limit):	
@@ -21,6 +22,7 @@ def forum_list_posts(forum_short, related, since, order, limit):
 	
 	if getForumPostsResp(resp, cursor, forum_id, extra, related, forum) == False:
 		return dontExist('forum')
+	
 	return OK(resp)
 
 @app.route('/db/api/forum/listPosts/', methods = ['GET'])
@@ -62,12 +64,9 @@ def list_users():
 	
 	
 	resp = []
-	#conn = mysql.connect()
 	cursor = mysql.connection.cursor()
 	forum_id = getForumIdByShortname(cursor, short)
 	if forum_id is None:
-		#cursor.close()
-		#conn.close()
 		return dontExist('forum')
 	
 	query = (list_users_query+str(forum_id)+extra+";")
@@ -80,9 +79,6 @@ def list_users():
 		parseUserData(cursor, subresp, data)
 		resp.append(subresp)
 		
-	#cursor.close()
-	#conn.close()
-	
 	return OK(resp)
 
 @app.route('/db/api/forum/listUsersOld/', methods = ['GET'])
@@ -99,14 +95,9 @@ def list_usersOld():
 	if extra == False:
 		return badExtra()
 	resp = []
-	#conn = mysql.connect()
 	cursor = mysql.connection.cursor()
 	if getUsersResp(resp, cursor, extra, short) == False:
-		#cursor.close()
-		#conn.close()
 		return didntFind('forum')
-	#cursor.close()
-	#conn.close()
 	return OK(resp)
 
 @app.route('/db/api/forum/details/', methods = ['GET'])	
@@ -121,14 +112,9 @@ def get_forum_details():
 		return badJson('"related" parameter is incorrect')
 	
 	resp = {}
-	#conn = mysql.connect()
 	cursor = mysql.connection.cursor()
 	if False == getForumResp(resp, cursor, short_name=shortname, related=related):
-		#cursor.close()
-		#conn.close()
 		return dontExist('forum')
-	#cursor.close()
-	#conn.close()
 	return OK(resp)
 
 @app.route('/db/api/forum/create/', methods = ['POST'])	
@@ -142,18 +128,15 @@ def create_forum():
 			return badTypes()
 	except:
 		return didntFind('short name, name and user')
-	#conn = mysql.connect()
 	cursor = mysql.connection.cursor()	
 	id = getUserByEmail(email, cursor)
 	if id is None:
-		#cursor.close()
-		#conn.close()
 		return dontExist('user')
 	resp = {}	
 	try:
-		query = ("INSERT INTO forum (name, short_name, founder_id)"
-		"VALUES(%s, %s, %s);")
-		cursor.execute(query, [name, shortname, id])
+		query = ("INSERT INTO forum (name, short_name, founder_id, founder_email)"
+		"VALUES(%s, %s, %s, %s);")
+		cursor.execute(query, [name, shortname, id, email])
 		mysql.connection.commit()
 		resp['id'] = cursor.lastrowid
 		resp['short_name'] = shortname
@@ -165,6 +148,4 @@ def create_forum():
 			getForumResp(resp, cursor, name=name)
 		else:
 			getForumResp(resp, cursor, id=id)
-	#cursor.close()
-	#conn.close()
 	return OK(resp)

@@ -1,18 +1,13 @@
 from numconv import *
 from flask import jsonify
-import ujson
-import random
+
 
 def getStatus(resp, cursor, table):
 	query = "SELECT COUNT(*) FROM " + table + ";"
 	cursor.execute(query)
 	resp[table] = cursor.fetchone()[0]
 
-def badTypes():
-	return badJson('argument types are incorrect')
 
-def badExtra():
-	return badJson('since, order or limit are incorrect')
 
 def arePresent(keys, json):
 	return all (k in json for k in keys)
@@ -26,8 +21,7 @@ def areOfType(things, typ):
 			return False
 	return True
 
-def wrongTypes():
-	return badJson('incorrect argument types')
+
 
 def treeSort(cursor, resp, thread_id, sort, since, order, limit):
 	root_query = "SELECT matpath AS mpath FROM post WHERE isRoot=TRUE AND thread_id=%s"
@@ -82,7 +76,7 @@ def getThreadsResp(resp, cursor,  extra, forum_id=None, creator_email=None,  rel
 		creator_id = getUserByEmail(creator_email, cursor)
 		if creator_id is None:
 			return False
-		query += "creator_id = " + str(creator_id)+extra+";"
+		query += "creator_email = '" + creator_email+"'"+extra+";"
 	cursor.execute(query)
 	alldata = cursor.fetchall()
 	for data in alldata:
@@ -91,41 +85,7 @@ def getThreadsResp(resp, cursor,  extra, forum_id=None, creator_email=None,  rel
 		resp.append(subresp)
 	return True	
 
-def countPostsInThread(cursor, id):
-	cursor.execute("SELECT  sql_no_cache posts FROM thread WHERE id = " + str(id) + ";")
-	return cursor.fetchone()[0]
 
-def parseThreadData(resp, cursor, data, related = [], known = {}):
-	if 'user' in related:
-		uresp = {}
-		getUserResp(uresp, cursor, id = data[2])
-		resp['user'] = uresp
-	else:
-		resp['user'] = getUserEmailById(cursor, data[2])
-	
-	if 'forum' not in known:
-		if 'forum' in related:
-			fresp = {}
-			getForumResp(fresp, cursor, id=data[6])
-			resp['forum'] = fresp
-		else:
-			resp['forum'] = getForumShortnameById(cursor, data[6])	
-	else:
-		resp['forum'] = known['forum']
-	
-	resp['date'] = str(data[7])
-	resp['dislikes'] = data[5]
-	resp['isClosed'] = data[8]
-	resp['isDeleted'] = data[9]
-	resp['likes'] = data[4]
-	resp['message'] = data[3]
-	resp['points'] = data[4] - data[5]
-	resp['slug'] = data[1]
-	resp['title'] = data[0]
-	resp['posts'] = data[11]
-	resp['id'] = data[10]
-
-thread_fields = "title, slug, creator_id, message, likes, dislikes, forum_id, date, isClosed, isDeleted, id, posts"
 
 
 
@@ -137,25 +97,6 @@ def checkRelated(related, allowedValues):
 			return False
 	return True
 
-def getParents(cursor, extra = ''):
-	cursor.execute("SELECT id FROM post WHERE matpath IS NULL " + extra + ' ;')
-	parents = []
-	parseArrOfArrs(cursor.fetchall(), parents)
-	return parents
-
-def getChildPosts(cursor, path, extra, resp):
-	return ''
-	query = "SELECT date, id, matpath FROM post WHERE matpath LIKE '" + path + "'" + extra + ";"
-	cursor.execute(query)
-	toappend = []
-	alldata = cursor.fetchall()
-	for data in alldata:
-		subresp = {}
-		subresp['date'] = str(data[0])
-		subresp['id'] = data[1]
-		subresp['matpath'] = data[2]
-		resp.append(subresp)
-		getChildPosts(cursor, path, extra, resp)
 
 def mystr(tostr):
 	if type(tostr) == str or type(tostr) == unicode:
@@ -180,7 +121,7 @@ def sinceOrderLimit(since, order, limit, orderby='date', sinceWhat='date'):
 		except:
 			return False
 		extra += ' LIMIT ' + str(limit)
-	return extra	
+	return extra
 
 def getOrderExtra(order, by):
 	if order is not None and not isinstance(order, basestring):
@@ -198,41 +139,11 @@ def jsonOrFalse(json, key):
 	except:
 		return False
 		
-def dontExist(what):
-	tosend = {}
-	tosend['code'] = 1	
-	tosend['response'] = what + " doesn't exist"
-	return ujson.dumps(tosend)
-
-def badJson(err):
-	tosend = {}
-	tosend['code'] = 3	
-	tosend['response'] = err
-	return ujson.dumps(tosend)
-
-def OK(resp):
-	tosend = {}
-	tosend['code'] = 0
-	tosend['response'] = resp
-	return ujson.dumps(tosend)
-
-def didntFind(what = None):
-	tosend = {}
-	tosend['code'] = 2
-	if what is None:
-		tosend['response'] = "couldn't find some required fields"
-	else:	
-		tosend['response'] = what + " required"
-	return ujson.dumps(tosend)
 
 def getPathPiece(id):
-
-
 	base36 = int2str(id, radix=36)
-
-
-
 	return str(len(base36)) + base36
+
 
 def getParentMatpath(cursor, id):
 	query = 'SELECT  sql_no_cache matpath FROM post WHERE id = %s'
@@ -296,7 +207,7 @@ def getForumResp(resp, cursor, id=None, short_name=None, name=None, related = []
 		id = getForumIdByName(cursor, name)
 	if id is None:
 		return None	
-	query = ("SELECT short_name, name, founder_id FROM forum WHERE id = %s;")
+	query = ("SELECT short_name, name, founder_id, founder_email FROM forum WHERE id = %s;")
 	cursor.execute(query, [id])
 	data = cursor.fetchone()
 
@@ -308,7 +219,7 @@ def getForumResp(resp, cursor, id=None, short_name=None, name=None, related = []
 		getUserResp(user, cursor, id=data[2])
 		resp['user'] = user
 	else:
-		resp['user'] = getUserEmailById(cursor, data[2])
+		resp['user'] = data[3]
 
 
 
@@ -318,7 +229,6 @@ def getForumShortnameById(cursor, id):
 	return cursor.fetchone()[0]
 	
 def getUserByEmail(email, cursor):
-	return random.randint(1, 100000)
 	query = ("SELECT id  sql_no_cache FROM user WHERE email = %s;")
 	cursor.execute(query, [email])
 	user = cursor.fetchone()
@@ -328,28 +238,7 @@ def getUserByEmail(email, cursor):
 		return None	
 
 
-user_fields = 'about, email, user.id, isAnonymous, user.name, username, hasFollowers, hasFollowees, hasSubscriptions'
 
-def parseUserData(cursor, resp, data):
-	resp['email'] = data[1]
-	resp['about'] = data[0]
-	resp['id'] = data[2]
-	resp['isAnonymous'] = data[3]
-	resp['name'] = data[4]
-	
-	resp['username'] = data[5]
-	if data[6] == 110:
-		resp['followers'] = []
-	else:
-		getFollowers(cursor, data[2], resp)
-	if data[7] == 110:
-		resp['followees'] = []
-	else:
-		getFollowees(cursor, data[2], resp)
-	if data[8] == 110:
-		resp['subscriptions'] = []
-	else:
-		resp['subscriptions'] = getSubscriptions(cursor, data[2])
 	
 #returns user id
 def getUserResp(resp, cursor, email = None, id = None):
@@ -438,50 +327,9 @@ def getSubscriptions(cursor, id):
 	parseArrOfArrs(cursor.fetchall(), subs)
 	return subs
 
-def parsePostData(resp, cursor, data, related = [], known = {}):
-	if 'user' in known:
-		resp['user'] = known['user']
-	else:
-		if 'user' in related:
-			uresp = {}
-			getUserResp(uresp, cursor, id = data[5])
-			resp['user'] = uresp
-		else:
-			resp['user'] =  getUserEmailById(cursor, data[5])
-	if 'thread' in related:
-		tresp = {}
-		getThreadRespById(tresp, cursor, data[12], related=[], known=known)
-		resp['thread'] = tresp
-	else:
-		resp['thread'] = data[12]
-	if 'forum' not in known:
-		if 'forum' in related:
-			fresp = {}
-			getForumResp(fresp, cursor, id=data[1])
-			resp['forum'] = fresp
-		else:
-			resp['forum'] = getForumShortnameById(cursor, data[1])
-	else:
-		resp['forum'] = known['forum']
-	resp['id'] = data[0]	
-	resp['date'] = str(data[11])
-	resp['dislikes'] = data[4]
-	resp['isApproved'] = data[6]
-	resp['isDeleted'] = data[8]
-	resp['isEdited'] = data[9]
-	resp['isHighlighted'] = data[7]
-	resp['isSpam'] = data[10]
-	resp['likes'] = data[3]
-	resp['message'] = data[2]
-	resp['points'] = data[3] - data[4]
-	if data[14] == 1:
-		resp['parent'] = None
-	else:
-		resp['parent'] = getParentByMatpath(data[13])
 
-postParams = ("id, forum_id, message, likes, dislikes, author_id"
-	", isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot")
-postParams2 = "matpath, id"
+
+
 def parsePostData2(resp, cursor, data):
 	resp['path'] = data[0]
 
@@ -524,7 +372,8 @@ def getPostsResp(resp, cursor, forum_id=None, thread_id=None, user_email=None, e
 		param = getUserByEmail(user_email, cursor)
 		if param is None:
 			return False
-		query += "author_id=%s "
+		param = user_email
+		query += "author_email=%s "
 	query += extra + ';'
 	cursor.execute(query, [param])
 	alldata = cursor.fetchall()
@@ -549,7 +398,7 @@ def getForumPostsResp(resp, cursor, forum_id, extra, related, forum):
 	
 		
 def getUserPostsResp(resp, cursor, user_email, extra):
-	query = ("SELECT " + postParams + " FROM post WHERE author_id=%s ")
+	query = ("SELECT sql_no_cache " + postParams + " FROM post WHERE author_email=%s ")
 	
 	id = getUserByEmail(user_email, cursor)
 	if id is None:
@@ -557,7 +406,7 @@ def getUserPostsResp(resp, cursor, user_email, extra):
 	
 	query += extra + ';'
 	
-	cursor.execute(query, [id])
+	cursor.execute(query, [user_email])
 	alldata = cursor.fetchall()
 	related = []
 	known={'user':user_email}
@@ -567,16 +416,12 @@ def getUserPostsResp(resp, cursor, user_email, extra):
 		resp.append(subresp)
 	
 
-def getThreadPostsResp(resp, cursor, thread_id=None, extra=''):
-	
-	
-	id = int(thread_id)
-	
+def getThreadPostsResp(resp, cursor, thread_id=None, extra=''):	
+	id = int(thread_id)	
 	cursor.execute('SELECT  sql_no_cache id FROM thread WHERE id=%s;', [id])
 	one = cursor.fetchone()
 	if one[0] is None:
-		return False
-	
+		return False	
 	query = ("SELECT " + postParams + " FROM post WHERE thread_id=%s ")
 	query += extra + ';'
 	cursor.execute(query, [id])
@@ -587,3 +432,102 @@ def getThreadPostsResp(resp, cursor, thread_id=None, extra=''):
 		subresp = {}
 		parsePostData(subresp, cursor, data, related=related, known=known)
 		resp.append(subresp)
+
+def parseThreadData(resp, cursor, data, related = [], known = {}):
+	if 'user' in related:
+		uresp = {}
+		getUserResp(uresp, cursor, id = data[2])
+		resp['user'] = uresp
+	else:
+		resp['user'] = data[12]
+	
+	if 'forum' not in known:
+		if 'forum' in related:
+			fresp = {}
+			getForumResp(fresp, cursor, id=data[6])
+			resp['forum'] = fresp
+		else:
+			resp['forum'] = getForumShortnameById(cursor, data[6])	
+	else:
+		resp['forum'] = known['forum']
+	
+	resp['date'] = str(data[7])
+	resp['dislikes'] = data[5]
+	resp['isClosed'] = data[8]
+	resp['isDeleted'] = data[9]
+	resp['likes'] = data[4]
+	resp['message'] = data[3]
+	resp['points'] = data[4] - data[5]
+	resp['slug'] = data[1]
+	resp['title'] = data[0]
+	resp['posts'] = data[11]
+	resp['id'] = data[10]
+
+def parsePostData(resp, cursor, data, related = [], known = {}):
+	if 'user' in known:
+		resp['user'] = known['user']
+	else:
+		if 'user' in related:
+			uresp = {}
+			getUserResp(uresp, cursor, id = data[5])
+			resp['user'] = uresp
+		else:
+			resp['user'] = data[15]
+	if 'thread' in related:
+		tresp = {}
+		getThreadRespById(tresp, cursor, data[12], related=[], known=known)
+		resp['thread'] = tresp
+	else:
+		resp['thread'] = data[12]
+	if 'forum' not in known:
+		if 'forum' in related:
+			fresp = {}
+			getForumResp(fresp, cursor, id=data[1])
+			resp['forum'] = fresp
+		else:
+			resp['forum'] = getForumShortnameById(cursor, data[1])
+	else:
+		resp['forum'] = known['forum']
+	resp['id'] = data[0]	
+	resp['date'] = str(data[11])
+	resp['dislikes'] = data[4]
+	resp['isApproved'] = data[6]
+	resp['isDeleted'] = data[8]
+	resp['isEdited'] = data[9]
+	resp['isHighlighted'] = data[7]
+	resp['isSpam'] = data[10]
+	resp['likes'] = data[3]
+	resp['message'] = data[2]
+	resp['points'] = data[3] - data[4]
+	if data[14] == 1:
+		resp['parent'] = None
+	else:
+		resp['parent'] = getParentByMatpath(data[13])
+
+def parseUserData(cursor, resp, data):
+	resp['email'] = data[1]
+	resp['about'] = data[0]
+	resp['id'] = data[2]
+	resp['isAnonymous'] = data[3]
+	resp['name'] = data[4]
+	
+	resp['username'] = data[5]
+	if data[6] == 0:
+		resp['followers'] = []
+	else:
+		getFollowers(cursor, data[2], resp)
+	if data[7] == 0:
+		resp['followees'] = []
+	else:
+		getFollowees(cursor, data[2], resp)
+	if data[8] == 0:
+		resp['subscriptions'] = []
+	else:
+		resp['subscriptions'] = getSubscriptions(cursor, data[2])
+
+
+user_fields = 'about, email, user.id, isAnonymous, user.name, username, hasFollowers, hasFollowees, hasSubscriptions'
+postParams = ("id, forum_id, message, likes, dislikes, author_id"
+	", isApproved, isHighlighted, isDeleted, isEdited, isSpam, date, thread_id, matpath, isRoot, author_email")
+postParams2 = "matpath, id"
+thread_fields = "title, slug, creator_id, message, likes, dislikes, forum_id, date, isClosed, isDeleted, id, posts, creator_email"

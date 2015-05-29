@@ -3,7 +3,7 @@ from flask import request, jsonify
 import MySQLdb
 from forum_views import forum_list_posts
 from shortcuts import *
-
+from response import *
 @app.route('/db/api/post/vote/', methods = ['POST'])	
 def vote_post():
 	
@@ -22,12 +22,9 @@ def vote_post():
 	else:
 		return badJson('vote must be 1 or -1')
 	
-	##conn = mysql.connect()
 	cursor = mysql.connection.cursor()
 	cursor.execute("SELECT id FROM post WHERE id = %s;", [id])
 	if cursor.fetchone() is None:
-		#cursor.close()
-		##conn.close()
 		return dontExist('post')
 	
 	cursor.execute(query, [id])
@@ -35,8 +32,6 @@ def vote_post():
 	resp = {}
 	
 	getPostRespById(resp, cursor, id)
-	#cursor.close()
-	#conn.close()
 	return OK(resp)
 
 @app.route('/db/api/post/update/', methods = ['POST'])	
@@ -51,12 +46,9 @@ def update_post():
 		return didntFind('post id and message')
 
 	resp = {}
-	#conn = mysql.connect()
 	cursor = mysql.connection.cursor()
 	cursor.execute("SELECT id FROM post WHERE id = %s;", [id])
 	if cursor.fetchone() is None:
-		#cursor.close()
-		#conn.close()
 		return dontExist('post')
 	
 	query = "UPDATE post SET message = %s WHERE id = %s"
@@ -66,8 +58,6 @@ def update_post():
 	resp = {}
 	
 	getPostRespById(resp, cursor, id)
-	#cursor.close()
-	#conn.close()
 	return OK(resp)
 
 
@@ -87,21 +77,16 @@ def restmove_post():
 		query = "UPDATE post SET isDeleted = TRUE WHERE id = %s"
 	else:	
 		query = "UPDATE post SET isDeleted = FALSE WHERE id = %s"
-	#conn = mysql.connect()
 	cursor = mysql.connection.cursor()	
 	cursor.execute(query, [id])
 	mysql.connection.commit()
 	resp = {}
 	resp['post'] = id
-	#cursor.close()
-	#conn.close()
 	return OK(resp)	
 
 
 
-#@app.route('/db/api/forum/listPosts/', methods = ['GET'])
 @app.route('/db/api/post/list/', methods = ['GET'])	
-#@app.route('/db/api/user/listPosts/', methods = ['GET'])
 def list_posts():
 	
 	known = {}
@@ -158,27 +143,18 @@ def create_post():
 	if not(areOfType((isApproved, isHighlighted, isEdited, isDeleted, isSpam), bool)):		
 		return badTypes()
 	
-	#conn = mysql.connect()
 	cursor = mysql.connection.cursor()
 	forum_id = getForumIdByShortname(cursor, forum_short)
 	if forum_id is None:
-		#cursor.close()
-		#conn.close()
 		return dontExist('forum')
 	thread_forum = getForumByThread(cursor, thread_id)
 	if thread_forum is None:
-		#cursor.close()
-		#conn.close()
 		return dontExist('thread')
 	if thread_forum != forum_id:
-		#cursor.close()
-		#conn.close()
 		return badJson('thread is not in specified forum')
 		
 	author_id = getUserByEmail(user_email, cursor)
 	if author_id is None:
-		#cursor.close()
-		#conn.close()
 		return dontExist('user')
 	
 	if parent_id is None:
@@ -189,16 +165,14 @@ def create_post():
 		isroot = False
 	query = ("INSERT INTO post (forum_id, message, author_id"
 			", isApproved, isHighlighted, isDeleted, isEdited, isSpam"
-			", date, thread_id, isRoot) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);")
+			", date, thread_id, isRoot, author_email) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);")
 	cursor.execute(query, [forum_id, message, author_id, \
-		isApproved, isHighlighted, isDeleted, isEdited, isSpam , date, thread_id, isroot])
+		isApproved, isHighlighted, isDeleted, isEdited, isSpam , date, thread_id, isroot, user_email])
 	mysql.connection.commit()
 	row = cursor.lastrowid
 	
 	cursor.execute("UPDATE post SET matpath='"+path+getPathPiece(row)+"' WHERE id="+str(row)+';')
 	mysql.connection.commit()
-	#cursor.close()
-	#conn.close()
 	resp = {}
 	resp['date'] = date
 	resp['forum'] = forum_short
@@ -222,13 +196,8 @@ def post_details():
 	
 	related = request.args.getlist('related')
 	resp = {}
-	#conn = mysql.connect()
 	cursor = mysql.connection.cursor()
 	if getPostRespById(resp, cursor, id, related) == False:
-		#cursor.close()
-		#conn.close()
 		return dontExist('post')
-	#cursor.close()
-	#conn.close()	
 	return OK(resp)
 
