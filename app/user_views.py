@@ -236,7 +236,8 @@ def status():
 	getStatus(resp, cursor, 'forum')
 	getStatus(resp, cursor, 'thread')
 	getStatus(resp, cursor, 'post')
-	return OK(resp)
+	tosend = { 'code' : 0, 'response' : resp }
+	return jsonify(**tosend)
 
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
@@ -244,5 +245,5 @@ def catch_all(path):
 	tosend = {}
 	tosend['code'] = 3
 	tosend['response'] = "this url is not in api"
-	return ujson.dumps(tosend)
+	return jsonify(**tosend)
 	

@@ -1,15 +1,17 @@
 import ujson
+from Flask import jsonify
+
 def dontExist(what):
 	tosend = {}
 	tosend['code'] = 1	
 	tosend['response'] = what + " doesn't exist"
-	return ujson.dumps(tosend)
+	return jsonify(**tosend)
 
 def badJson(err):
 	tosend = {}
 	tosend['code'] = 3	
 	tosend['response'] = err
-	return ujson.dumps(tosend)
+	return jsonify(**tosend)
 
 def OK(resp):
 	tosend = {}
@@ -24,7 +26,7 @@ def didntFind(what = None):
 		tosend['response'] = "couldn't find some required fields"
 	else:	
 		tosend['response'] = what + " required"
-	return ujson.dumps(tosend)
+	return jsonify(**tosend)
 
 def badTypes():
 	return badJson('argument types are incorrect')
