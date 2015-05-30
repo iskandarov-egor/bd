@@ -76,7 +76,7 @@ def getThreadsResp(resp, cursor,  extra, forum_id=None, creator_email=None,  rel
 		creator_id = getUserByEmail(creator_email, cursor)
 		if creator_id is None:
 			return False
-		query += "creator_id = " + str(creator_id)++extra+";"
+		query += "creator_id = " + str(creator_id) + extra + ";"
 	cursor.execute(query)
 	alldata = cursor.fetchall()
 	for data in alldata:
