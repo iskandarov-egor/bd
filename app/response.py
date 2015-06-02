@@ -1,5 +1,5 @@
 import ujson
-from Flask import jsonify
+from flask import jsonify
 
 def dontExist(what):
 	tosend = {}
